@@ -76,7 +76,7 @@ jobs:
             7. 変更をコミットしてください
 
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          allowed_tools: "Edit,Write,Bash(git commit:*),Bash(git add:*),Bash(date:*),Read,Glob,WebSearch,WebFetch"
+          claude_args: "--allowedTools Edit,Write,\"Bash(git commit:*)\",\"Bash(git add:*)\",\"Bash(date:*)\",Read,Glob,WebSearch,WebFetch"
 
       - name: Update last-known changelog
         run: |
