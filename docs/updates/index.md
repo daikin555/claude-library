@@ -4,7 +4,7 @@ title: アップデート一覧
 ---
 
 <script setup>
-import { data } from './index.data.ts'
+import { data } from './index.data.mts'
 </script>
 
 # アップデート一覧
