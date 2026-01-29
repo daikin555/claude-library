@@ -1,0 +1,87 @@
+name: Monitor Changelog & Generate Guide
+
+on:
+  schedule:
+    # 毎日00:00 UTC（JST 09:00）に実行
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  check-changelog:
+    runs-on: ubuntu-latest
+    outputs:
+      has_changes: ${{ steps.detect.outputs.has_changes }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Detect changelog changes
+        id: detect
+        run: |
+          if bash scripts/detect-changes.sh; then
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Upload new entries
+        if: steps.detect.outputs.has_changes == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: new-entries
+          path: |
+            data/new-entries.md
+            data/current-changelog.md
+
+  generate-guide:
+    needs: check-changelog
+    if: needs.check-changelog.outputs.has_changes == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download new entries
+        uses: actions/download-artifact@v4
+        with:
+          name: new-entries
+          path: data/
+
+      - name: Generate guide with Claude Code
+        uses: anthropics/claude-code-action@v1
+        with:
+          prompt: |
+            data/new-entries.md ファイルを読み取り、Claude Codeの新しいchangelogエントリを分析して活用ガイド記事を生成してください。
+
+            ## 作業指示:
+            1. data/new-entries.md を読み取り、新しいエントリの内容を分析してください
+            2. 各主要な変更・新機能について、`docs/updates/` 以下にMarkdownガイド記事を作成してください
+            3. ファイル名は `YYYY-MM-DD-feature-name.md` 形式にしてください（今日の日付を使用）
+            4. 記事は以下のfrontmatter形式で始めてください:
+               ```
+               ---
+               title: "記事タイトル"
+               date: YYYY-MM-DD
+               tags: [関連タグ]
+               ---
+               ```
+            5. 記事の内容には以下を含めてください:
+               - 機能の概要
+               - 具体的な使い方・コード例
+               - 実践的な活用シーン
+               - 注意点やTips
+            6. すべて日本語で記述してください
+            7. 変更をコミットしてください
+
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          allowed_tools: "Edit,Write,Bash(git commit:*),Bash(git add:*),Bash(date:*),Read,Glob,WebSearch,WebFetch"
+
+      - name: Update last-known changelog
+        run: |
+          cp data/current-changelog.md data/last-known-changelog.md
+          git add data/last-known-changelog.md
+          git diff --cached --quiet || git commit -m "Update last-known changelog"
+
+      - name: Push changes
+        run: git push
