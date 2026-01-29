@@ -1,6 +1,6 @@
 ---
 title: "Bedrock・Vertex環境での実験的機能の無効化"
-date: 2026-01-29
+date: 2026-01-30
 tags: [bedrock, vertex, environment-variables, troubleshooting]
 ---
 
