@@ -35,8 +35,9 @@ if diff -q "$LAST_KNOWN_FILE" "$CURRENT_FILE" > /dev/null 2>&1; then
 fi
 
 # 新しい部分を抽出（diffの追加行のみ）
+# diff は差分がある場合に終了コード1を返すため、pipefail で失敗しないようにする
 echo "Changes detected!"
-diff "$LAST_KNOWN_FILE" "$CURRENT_FILE" | grep '^>' | sed 's/^> //' > data/new-entries.md
+diff "$LAST_KNOWN_FILE" "$CURRENT_FILE" | grep '^>' | sed 's/^> //' > data/new-entries.md || true
 
 cat data/new-entries.md
 exit 0
