@@ -12,7 +12,8 @@ export default createContentLoader('updates/*.md', {
         frontmatter: {
           ...page.frontmatter,
           date: formatDate(page.frontmatter.date)
-        }
+        },
+        excerpt: extractExcerpt(page.html)
       }))
   }
 })
@@ -26,4 +27,29 @@ function formatDate(date: string | Date): string {
   const m = String(date.getUTCMonth() + 1).padStart(2, '0')
   const d = String(date.getUTCDate()).padStart(2, '0')
   return `${y}-${m}-${d}`
+}
+
+function extractExcerpt(html: string | undefined): string {
+  if (!html) return ''
+
+  // HTMLタグを除去
+  const text = html.replace(/<[^>]*>/g, ' ')
+
+  // 連続空白を1つに正規化
+  const normalized = text.replace(/\s+/g, ' ').trim()
+
+  // 文単位で分割（句点、感嘆符、疑問符で判定）
+  const sentences = normalized.split(/[。！？]/)
+    .map(s => s.trim())
+    .filter(s => s.length > 0)
+
+  // 最初の2文を結合
+  let excerpt = sentences.slice(0, 2).join('。') + '。'
+
+  // 150字を超える場合は切り詰めて「...」を追加
+  if (excerpt.length > 150) {
+    excerpt = excerpt.slice(0, 147) + '...'
+  }
+
+  return excerpt
 }
