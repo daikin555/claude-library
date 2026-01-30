@@ -1,5 +1,5 @@
 <template>
-  <a :href="url" class="article-card">
+  <a :href="withBase(url)" class="article-card">
     <h3 class="title">{{ title }}</h3>
     <div class="date">{{ date }}</div>
     <p class="excerpt">{{ excerpt }}</p>
@@ -13,6 +13,8 @@
 </template>
 
 <script setup lang="ts">
+import { withBase } from 'vitepress'
+
 interface Props {
   url: string
   title: string
