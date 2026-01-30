@@ -31,8 +31,7 @@ export default defineConfig({
   lang: 'ja',
   themeConfig: {
     nav: [
-      { text: 'ホーム', link: '/' },
-      { text: 'アップデート', link: '/updates/' }
+      { text: 'ホーム', link: '/' }
     ],
     sidebar: [
       {
