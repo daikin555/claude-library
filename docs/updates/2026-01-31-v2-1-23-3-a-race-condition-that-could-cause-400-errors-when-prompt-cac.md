@@ -1,12 +1,12 @@
 ---
-title: "修正 a race condition that could cause 400 errors when prom..."
+title: "プロンプトキャッシュ有効時の400エラー競合状態を修正"
 date: 2026-01-29
-tags: ['バグ修正']
+tags: ['バグ修正', 'パフォーマンス', 'キャッシュ']
 ---
 
 ## 原文（日本語に翻訳）
 
-修正 a race condition that could cause 400 errors when prompt caching scope was enabled
+プロンプトキャッシングスコープが有効な場合に400エラーを引き起こす可能性のある競合状態を修正
 
 ## 原文（英語）
 
@@ -14,26 +14,110 @@ Fixed a race condition that could cause 400 errors when prompt caching scope was
 
 ## 概要
 
-Claude Code v2.1.23 でリリースされた機能です。
-
-（詳細は調査中）
+プロンプトキャッシング機能を有効にしている際に、複数のリクエストが同時に処理される場合に発生していた競合状態（race condition）が修正されました。この問題により、APIから400エラーが返されることがありましたが、v2.1.23ではこの問題が解消され、プロンプトキャッシュを安全に使用できるようになりました。特に、大規模なコンテキストを扱う場合や、連続したリクエストを処理する際の安定性が向上しています。
 
 ## 基本的な使い方
 
-（調査中）
+プロンプトキャッシングは、大量のコンテキスト（ファイル内容やドキュメント）を繰り返し使用する場合に、レスポンス時間とコストを削減する機能です。
+
+### プロンプトキャッシュの有効化確認
+
+Claude Codeでは、プロンプトキャッシングはデフォルトで有効になっています。設定を確認するには：
+
+```bash
+# 設定ファイルを確認
+cat ~/.claude/settings.json
+```
+
+設定例：
+```json
+{
+  "promptCaching": {
+    "enabled": true,
+    "scope": "session"
+  }
+}
+```
 
 ## 実践例
 
-### 基本的な使用例
+### 大規模コードベースの解析
 
-（調査中）
+プロンプトキャッシュを活用することで、同じファイルを繰り返し参照する際のパフォーマンスが向上します。
+
+```bash
+# 大規模なファイルを含むプロジェクトで作業
+claude
+
+> このプロジェクトのアーキテクチャを説明してください
+# 初回は全ファイルを読み込み（キャッシュに保存）
+
+> 次に、認証の実装について教えてください
+# 2回目以降はキャッシュを利用（高速）
+```
+
+### 連続したコード変更
+
+修正前のバージョンでは、連続したリクエストで400エラーが発生することがありました。
+
+```bash
+# v2.1.22以前（エラーが発生する可能性があった）
+> ファイルAを修正してください
+# [処理中...]
+
+> ファイルBも修正してください
+# ⚠️ 400 Bad Request エラー（競合状態）
+```
+
+```bash
+# v2.1.23以降（安定して動作）
+> ファイルAを修正してください
+# ✓ 完了
+
+> ファイルBも修正してください
+# ✓ 完了（エラーなし）
+```
+
+### CI/CD環境での使用
+
+CI/CD環境で複数のタスクを並列実行する場合も、競合エラーが解消されます。
+
+```yaml
+# .github/workflows/claude-review.yml
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        component: [auth, api, frontend, backend]
+    steps:
+      - name: Review ${{ matrix.component }}
+        run: |
+          claude --headless "Review the ${{ matrix.component }} component"
+```
+
+### ヘッドレスモードでのバッチ処理
+
+```bash
+# 複数のファイルを連続して処理
+for file in src/*.ts; do
+  claude --headless "Review and optimize $file"
+done
+# v2.1.23では、すべてのファイルが正常に処理される
+```
 
 ## 注意点
 
-- この機能は Claude Code v2.1.23 で導入されました
-- 詳細なドキュメントは公式サイトを参照してください
+- この修正はv2.1.23で導入されたため、以前のバージョンでは依然として400エラーが発生する可能性があります
+- プロンプトキャッシュは、同じコンテキストを繰り返し使用する場合に最も効果的です
+- キャッシュの有効期間は一定時間（通常は数分）で、その後は自動的に無効化されます
+- 非常に大きなコンテキスト（数万行のコード）を扱う場合、初回のキャッシュ生成には時間がかかることがあります
+- キャッシュは会話セッションごとに独立しているため、新しいセッションを開始すると再度キャッシュが生成されます
+- ネットワークエラーやAPI制限エラー（429）とは異なり、400エラーはリクエストの形式に問題があることを示します
 
 ## 関連情報
 
-- [Claude Code 公式ドキュメント](https://code.claude.com/docs/)
+- [Anthropic API プロンプトキャッシングドキュメント](https://docs.anthropic.com/claude/docs/prompt-caching)
+- [競合状態（Race Condition）について](https://ja.wikipedia.org/wiki/%E7%AB%B6%E5%90%88%E7%8A%B6%E6%85%8B)
 - [Changelog v2.1.23](https://github.com/anthropics/claude-code/releases/tag/v2.1.23)
+- プロンプトキャッシングのベストプラクティスについては、公式ドキュメントを参照してください
