@@ -1,12 +1,12 @@
 ---
-title: "修正 slash command autocomplete selecting wrong command whe..."
+title: "類似スラッシュコマンドのオートコンプリート精度向上"
 date: 2026-01-20
-tags: ['バグ修正', 'コマンド']
+tags: ['バグ修正', 'コマンド', 'オートコンプリート', 'UI/UX']
 ---
 
 ## 原文（日本語に翻訳）
 
-修正 slash command autocomplete selecting wrong command when typing similar commands (e.g., `/context` vs `/compact`)
+類似したコマンド（例: `/context` と `/compact`）を入力する際に、オートコンプリートが誤ったコマンドを選択する問題を修正
 
 ## 原文（英語）
 
@@ -14,26 +14,101 @@ Fixed slash command autocomplete selecting wrong command when typing similar com
 
 ## 概要
 
-Claude Code v2.1.14 でリリースされた機能です。
-
-（詳細は調査中）
+Claude Codeのスラッシュコマンドのオートコンプリート機能において、名前が似ているコマンド（`/context` と `/compact` など）を入力する際に、意図しないコマンドが自動選択されてしまう問題を修正しました。この修正により、ユーザーが入力した文字列により正確にマッチするコマンドが選択されるようになり、誤操作が大幅に減少しました。高速なタイピングでもストレスなくコマンドを実行できます。
 
 ## 基本的な使い方
 
-（調査中）
+スラッシュコマンドを入力すると、オートコンプリート候補が表示されます。
+
+```
+# "/" を入力するとコマンド一覧が表示される
+/
+
+# 文字を入力すると候補が絞り込まれる
+/con → /config, /context, /compact が候補に表示
+
+# Tab または Enter で選択
+```
+
+修正後は、入力した文字列に最も近いコマンドが優先的に選択されます。
 
 ## 実践例
 
-### 基本的な使用例
+### /context と /compact の使い分け
 
-（調査中）
+最もよくある誤選択のパターンが改善されました。
+
+```
+# /context を使いたい場合
+/cont → 「/context」が最初に選択される（修正後）
+       （以前は「/compact」が選択されることがあった）
+
+# /compact を使いたい場合
+/comp → 「/compact」が最初に選択される
+/compa → 確実に「/compact」が選択される
+```
+
+### /config と /context の区別
+
+設定とコンテキストの切り替えがスムーズに。
+
+```
+# 設定を開く
+/conf → 「/config」が選択される
+/config → Enter（即座に実行）
+
+# コンテキストを確認
+/cont → 「/context」が選択される
+/context → Enter（即座に実行）
+
+# 以前: どちらも /con で始まるため混乱しやすかった
+# 修正後: より多くの文字がマッチする方が優先される
+```
+
+### 高速タイピング時の精度向上
+
+素早くコマンドを実行する際のエラーが減少。
+
+```
+# 高速でコマンド実行（修正後の動作）
+/mod → Tab → /model が選択
+/fee → Tab → /feedback が選択
+/hel → Tab → /help が選択
+
+# 以前: Tabを押すタイミングで違うコマンドが選択されることがあった
+# 修正後: 入力した文字に基づいて安定して選択される
+```
+
+### 部分一致での候補表示
+
+入力文字が含まれるコマンドが適切に表示される。
+
+```
+# "set" を含むコマンドを探す
+/set → /reset が候補に表示される
+
+# "view" を含むコマンドを探す
+/view → 関連するコマンドが優先表示される
+
+# スコアリングの改善により、より関連性の高いコマンドが上位に
+```
 
 ## 注意点
 
-- この機能は Claude Code v2.1.14 で導入されました
-- 詳細なドキュメントは公式サイトを参照してください
+- この修正は Claude Code v2.1.14 で適用されました
+- オートコンプリートは以下のルールで動作します:
+  1. 前方一致（入力文字で始まるコマンド）が最優先
+  2. 入力文字数が多いほど精度が向上
+  3. 部分一致も考慮されるが優先度は低い
+- コマンド名を完全に入力した場合、即座にEnterキーで実行できます
+- 候補を確認したい場合は、数文字入力後に一時停止してください
+- Tab キーまたは下矢印キーで候補を切り替えられます
+- Escキーで候補リストを閉じられます
+- 新しいコマンドが追加された場合も、同様のロジックで選択されます
 
 ## 関連情報
 
 - [Claude Code 公式ドキュメント](https://code.claude.com/docs/)
 - [Changelog v2.1.14](https://github.com/anthropics/claude-code/releases/tag/v2.1.14)
+- [コマンド一覧](https://code.claude.com/docs/commands)
+- [キーボードショートカット](https://code.claude.com/docs/keyboard-shortcuts)
