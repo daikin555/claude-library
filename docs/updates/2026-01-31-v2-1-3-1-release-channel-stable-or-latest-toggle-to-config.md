@@ -1,12 +1,12 @@
 ---
-title: "追加 release channel (`stable` or `latest`) toggle to `/con..."
+title: "リリースチャネルの選択機能（stable/latest）"
 date: 2026-01-09
-tags: ['新機能']
+tags: ['新機能', 'アップデート', '設定']
 ---
 
 ## 原文（日本語に翻訳）
 
-追加 release channel (`stable` or `latest`) toggle to `/config`
+`/config` にリリースチャネル（`stable` または `latest`）の切り替え機能を追加しました
 
 ## 原文（英語）
 
@@ -14,26 +14,66 @@ Added release channel (`stable` or `latest`) toggle to `/config`
 
 ## 概要
 
-Claude Code v2.1.3 でリリースされた機能です。
-
-（詳細は調査中）
+Claude Code v2.1.3では、`/config` コマンドからリリースチャネルを選択できるようになりました。`stable`チャネルは安定版のリリースのみを受け取り、`latest`チャネルは最新機能をいち早く試すことができます。プロジェクトの要件に応じて、安定性と最新機能のどちらを優先するか選択可能です。
 
 ## 基本的な使い方
 
-（調査中）
+リリースチャネルの設定は `/config` コマンドから変更できます。
+
+```bash
+# 設定画面を開く
+/config
+
+# リリースチャネルの項目で stable または latest を選択
+```
 
 ## 実践例
 
-### 基本的な使用例
+### 安定版を使いたい場合（プロダクション環境）
 
-（調査中）
+本番環境やチームでの共同作業では、`stable` チャネルの使用を推奨します。
+
+```bash
+# /config で stable を選択
+# - 十分にテストされた安定版のみが配信される
+# - 予期しない動作変更のリスクが低い
+# - チーム全体で同じバージョンを維持しやすい
+```
+
+### 最新機能を試したい場合（開発・検証環境）
+
+新機能をいち早く試したい場合や、個人の開発環境では `latest` チャネルが適しています。
+
+```bash
+# /config で latest を選択
+# - 最新のバグ修正や機能追加をすぐに利用できる
+# - フィードバックを早期に提供できる
+# - 新機能の学習を先取りできる
+```
+
+### チャネルの切り替え
+
+チャネルは必要に応じていつでも変更できます。
+
+```bash
+# stable → latest に切り替え
+# 1. /config を実行
+# 2. リリースチャネルで latest を選択
+# 3. 保存後、次回のアップデートチェック時から latest チャネルが適用される
+
+# latest → stable に切り替え
+# 同様の手順で stable を選択
+```
 
 ## 注意点
 
-- この機能は Claude Code v2.1.3 で導入されました
-- 詳細なドキュメントは公式サイトを参照してください
+- チャネルを変更しても、既にインストールされているバージョンはすぐには変わりません
+- 次回のアップデートチェック時から、選択したチャネルのバージョンが適用されます
+- `latest` チャネルは不安定な場合があるため、重要なプロジェクトでは `stable` の使用を推奨します
+- チーム開発では、全員が同じチャネルを使用することで、環境の統一性を保てます
 
 ## 関連情報
 
-- [Claude Code 公式ドキュメント](https://code.claude.com/docs/)
+- [Claude Code 公式ドキュメント](https://claude.ai/code)
 - [Changelog v2.1.3](https://github.com/anthropics/claude-code/releases/tag/v2.1.3)
+- [アップデート管理のベストプラクティス](https://github.com/anthropics/claude-code)
