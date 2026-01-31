@@ -49,34 +49,46 @@ jobs:
           name: new-entries
           path: data/
 
+      - name: Get today's date
+        id: date
+        run: echo "today=$(date +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
+
       - name: Generate guide with Claude Code
+        env:
+          TODAY_DATE: ${{ steps.date.outputs.today }}
         uses: anthropics/claude-code-action@v1
         with:
           prompt: |
             data/new-entries.md ファイルを読み取り、Claude Codeの新しいchangelogエントリを分析して活用ガイド記事を生成してください。
 
+            ## 重要な日付情報:
+            - **ファイル名に使用する日付**: 環境変数 $TODAY_DATE の値を使用してください（今日の日付: $TODAY_DATE）
+            - **frontmatter dateフィールド**: changelogに記載されているリリース日付を使用してください
+
             ## 作業指示:
             1. data/new-entries.md を読み取り、新しいエントリの内容を分析してください
             2. 各主要な変更・新機能について、`docs/updates/` 以下にMarkdownガイド記事を作成してください
-            3. ファイル名は `YYYY-MM-DD-feature-name.md` 形式にしてください（今日の日付を使用）
+            3. **ファイル名**: `$TODAY_DATE-feature-name.md` 形式にしてください
+               - 環境変数 $TODAY_DATE をそのまま使用すること（dateコマンドを実行しないこと）
+               - 例: $TODAY_DATE が "2026-01-31" なら、"2026-01-31-new-feature.md" のように命名
             4. 記事は以下のfrontmatter形式で始めてください:
-               ```
+               ```yaml
                ---
                title: "記事タイトル"
-               date: YYYY-MM-DD
+               date: YYYY-MM-DD  # ← changelogのリリース日付
                tags: [関連タグ]
                ---
                ```
             5. 記事の内容には以下を含めてください:
-               - 機能の概要
-               - 具体的な使い方・コード例
+               - 機能の概要（2-3文）
+               - 具体的な使い方・コマンド例
                - 実践的な活用シーン
                - 注意点やTips
             6. すべて日本語で記述してください
             7. 変更をコミットしてください
 
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          claude_args: "--allowedTools Edit,Write,\"Bash(git commit:*)\",\"Bash(git add:*)\",\"Bash(date:*)\",Read,Glob,WebSearch,WebFetch"
+          claude_args: "--allowedTools Edit,Write,\"Bash(git commit:*)\",\"Bash(git add:*)\",Read,Glob,WebSearch,WebFetch"
 
       - name: Update last-known changelog
         run: |
