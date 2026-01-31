@@ -72,6 +72,11 @@ function getTagStyle(tag: string) {
   font-weight: 600;
   color: var(--vp-c-text-1);
   line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 50px;
 }
 
 .date {
