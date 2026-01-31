@@ -1,5 +1,5 @@
 ---
-title: "非推奨化 Windows managed settings path `C:\ProgramData\Claude..."
+title: '非推奨化 Windows managed settings path `C:\ProgramData\ClaudeCode\managed-settings.json`'
 date: 2026-01-09
 tags: ['Windows']
 ---
