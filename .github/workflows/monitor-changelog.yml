@@ -56,10 +56,13 @@ jobs:
             data/new-entries.md ファイルを読み取り、Claude Codeの新しいchangelogエントリを分析して活用ガイド記事を生成してください。
 
             ## 作業指示:
-            1. data/new-entries.md を読み取り、新しいエントリの内容を分析してください
-            2. 各主要な変更・新機能について、`docs/updates/` 以下にMarkdownガイド記事を作成してください
-            3. ファイル名は `YYYY-MM-DD-feature-name.md` 形式にしてください（今日の日付を使用）
-            4. 記事は以下のfrontmatter形式で始めてください:
+            1. **重要**: まず `date +%Y-%m-%d` コマンドを実行して今日の日付を取得してください
+            2. data/new-entries.md を読み取り、新しいエントリの内容を分析してください
+            3. 各主要な変更・新機能について、`docs/updates/` 以下にMarkdownガイド記事を作成してください
+            4. **重要**: ファイル名は `YYYY-MM-DD-feature-name.md` 形式にしてください
+               - **YYYY-MM-DDには必ず手順1で取得した今日の日付を使用すること**
+               - changelogに記載されているリリース日付は使わないこと
+            5. 記事は以下のfrontmatter形式で始めてください:
                ```
                ---
                title: "記事タイトル"
@@ -67,13 +70,14 @@ jobs:
                tags: [関連タグ]
                ---
                ```
-            5. 記事の内容には以下を含めてください:
+               - frontmatterのdateフィールドには、changelogのリリース日付を使用してください
+            6. 記事の内容には以下を含めてください:
                - 機能の概要
                - 具体的な使い方・コード例
                - 実践的な活用シーン
                - 注意点やTips
-            6. すべて日本語で記述してください
-            7. 変更をコミットしてください
+            7. すべて日本語で記述してください
+            8. 変更をコミットしてください
 
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           claude_args: "--allowedTools Edit,Write,\"Bash(git commit:*)\",\"Bash(git add:*)\",\"Bash(date:*)\",Read,Glob,WebSearch,WebFetch"
