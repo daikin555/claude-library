@@ -1,12 +1,12 @@
 ---
-title: "修正 duplicate Bash commands appearing in permission reques..."
+title: "パーミッション要求オプションに重複Bashコマンドが表示される問題を修正"
 date: 2026-01-31
-tags: ['バグ修正', 'bash', 'パーミッション', 'コマンド']
+tags: ['バグ修正', 'パーミッション', 'UI', 'Bash']
 ---
 
 ## 原文（日本語に翻訳）
 
-修正 duplicate Bash commands appearing in permission request option labels
+パーミッション要求のオプションラベルに重複したBashコマンドが表示される問題を修正しました
 
 ## 原文（英語）
 
@@ -14,26 +14,15 @@ Fixed duplicate Bash commands appearing in permission request option labels
 
 ## 概要
 
-Claude Code v2.1.0 でリリースされた機能です。
-
-（詳細は調査中）
-
-## 基本的な使い方
-
-（調査中）
-
-## 実践例
-
-### 基本的な使用例
-
-（調査中）
+Claude Code v2.1.0で修正された、パーミッションダイアログ表示バグです。以前は、Bashコマンドの承認を求める際、同じコマンドが複数回表示されていました。修正後は、コマンドが1回のみ表示され、選択肢が明確になりました。パーミッション要求ダイアログで、コマンドが重複せず1回のみ表示されます。
 
 ## 注意点
 
-- この機能は Claude Code v2.1.0 で導入されました
-- 詳細なドキュメントは公式サイトを参照してください
+- Claude Code v2.1.0で実装
+- パーミッションダイアログのUI改善
+- 選択肢の可読性向上
+- 混乱を招く重複表示を排除
 
 ## 関連情報
 
-- [Claude Code 公式ドキュメント](https://code.claude.com/docs/)
-- [Changelog v2.1.0](https://github.com/anthropics/claude-code/releases/tag/v2.1.0)
+- [Permissions - Claude Code Docs](https://code.claude.com/docs/en/permissions)

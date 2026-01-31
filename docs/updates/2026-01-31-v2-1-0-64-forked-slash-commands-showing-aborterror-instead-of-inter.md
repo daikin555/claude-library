@@ -1,12 +1,12 @@
 ---
-title: '修正 forked slash commands showing "AbortError" instead of ...'
+title: "フォークされたスラッシュコマンドキャンセル時にAbortErrorではなくInterruptedメッセージを表示するよう修正"
 date: 2026-01-31
-tags: ['バグ修正', 'コマンド']
+tags: ['バグ修正', 'スラッシュコマンド', 'エラーメッセージ']
 ---
 
 ## 原文（日本語に翻訳）
 
-修正 forked slash commands showing "AbortError" instead of "Interrupted" message when cancelled
+フォークされたスラッシュコマンドがキャンセルされた際に、"AbortError"ではなく"Interrupted"メッセージを表示するよう修正しました
 
 ## 原文（英語）
 
@@ -14,26 +14,16 @@ Fixed forked slash commands showing "AbortError" instead of "Interrupted" messag
 
 ## 概要
 
-Claude Code v2.1.0 でリリースされた機能です。
-
-（詳細は調査中）
-
-## 基本的な使い方
-
-（調査中）
-
-## 実践例
-
-### 基本的な使用例
-
-（調査中）
+Claude Code v2.1.0で修正された、スラッシュコマンドキャンセル時のエラーメッセージ改善です。以前は、フォークされたスラッシュコマンドをキャンセルすると、技術的な"AbortError"が表示されていました。修正後は、より分かりやすい"Interrupted"（中断されました）メッセージが表示されるようになり、ユーザーフレンドリーになりました。
 
 ## 注意点
 
-- この機能は Claude Code v2.1.0 で導入されました
-- 詳細なドキュメントは公式サイトを参照してください
+- Claude Code v2.1.0で実装
+- フォークされたコマンド（バックグラウンド実行）が対象
+- ユーザーフレンドリーなエラーメッセージ
+- 技術的なエラー表示を排除
 
 ## 関連情報
 
-- [Claude Code 公式ドキュメント](https://code.claude.com/docs/)
-- [Changelog v2.1.0](https://github.com/anthropics/claude-code/releases/tag/v2.1.0)
+- [Slash commands - Claude Code Docs](https://code.claude.com/docs/en/slash-commands)
+- [Background tasks](https://code.claude.com/docs/en/background-tasks)
