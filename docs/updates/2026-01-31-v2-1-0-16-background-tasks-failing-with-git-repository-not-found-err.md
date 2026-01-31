@@ -1,5 +1,5 @@
 ---
-title: "修正 background tasks failing with "git repository not foun..."
+title: '修正 background tasks failing with "git repository not foun...'
 date: 2026-01-07
 tags: ['バグ修正']
 ---

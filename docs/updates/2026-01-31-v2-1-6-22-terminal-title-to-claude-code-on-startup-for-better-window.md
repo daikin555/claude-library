@@ -1,5 +1,5 @@
 ---
-title: "変更 terminal title to "Claude Code" on startup for better ..."
+title: '変更 terminal title to "Claude Code" on startup for better ...'
 date: 2026-01-13
 tags: ['変更']
 ---

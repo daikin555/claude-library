@@ -1,5 +1,5 @@
 ---
-title: "修正 forked slash commands showing "AbortError" instead of ..."
+title: '修正 forked slash commands showing "AbortError" instead of ...'
 date: 2026-01-07
 tags: ['バグ修正', 'コマンド']
 ---
