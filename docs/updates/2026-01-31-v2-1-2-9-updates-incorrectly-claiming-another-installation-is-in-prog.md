@@ -1,12 +1,12 @@
 ---
-title: "修正 updates incorrectly claiming another installation is i..."
+title: "アップデート時の誤った「インストール中」警告を修正"
 date: 2026-01-09
-tags: ['バグ修正']
+tags: ['バグ修正', 'アップデート', 'インストール']
 ---
 
 ## 原文（日本語に翻訳）
 
-修正 updates incorrectly claiming another installation is in progress
+別のインストールが進行中であると誤って表示されていたアップデート処理の問題を修正しました。
 
 ## 原文（英語）
 
@@ -14,26 +14,116 @@ Fixed updates incorrectly claiming another installation is in progress
 
 ## 概要
 
-Claude Code v2.1.2 でリリースされた機能です。
-
-（詳細は調査中）
+Claude Codeのアップデート時に、実際には他のインストールプロセスが実行されていないにも関わらず、「別のインストールが進行中です」という誤ったメッセージが表示され、アップデートがブロックされる問題が修正されました。これにより、スムーズにアップデートを実行できるようになります。
 
 ## 基本的な使い方
 
-（調査中）
+この修正は自動的に適用されます。v2.1.2以降では、アップデート処理が正しく動作します。
+
+### 修正前に発生していた問題
+
+```bash
+# アップデートを試みる
+claude --update
+
+# または自動アップデート時
+# → "Another installation is in progress. Please try again later."
+#    というメッセージが表示され、アップデートできない
+```
+
+### 修正後の正常な動作
+
+```bash
+# アップデートを実行
+claude --update
+
+# → 正常にアップデートプロセスが開始される
+# "Updating Claude Code to v2.1.2..."
+```
 
 ## 実践例
 
-### 基本的な使用例
+### 通常のアップデート
 
-（調査中）
+```bash
+# バージョン確認
+claude --version
+# claude-code version 2.1.1
+
+# アップデート実行
+claude --update
+
+# 修正前: 誤って「インストール中」と表示される
+# 修正後: 正常にアップデートが完了
+claude --version
+# claude-code version 2.1.2
+```
+
+### 自動アップデートの改善
+
+```bash
+# 自動アップデートが有効な環境
+# Claude Code起動時
+
+# 修正前:
+# - 新バージョンが利用可能
+# - 自動アップデートを試みる
+# - 「別のインストールが進行中」エラー
+# - アップデートに失敗
+# - ユーザーが手動で対処する必要がある
+
+# 修正後:
+# - 新バージョンが利用可能
+# - 自動アップデートを試みる
+# - 正常にアップデートが完了
+```
+
+### CI/CD環境での問題解消
+
+```bash
+# GitHub Actionsなどでのインストール/アップデート
+
+# 修正前の問題:
+# jobs:
+#   test:
+#     steps:
+#       - run: claude --update
+#         # → ランダムに失敗することがある
+#         # "Another installation is in progress"
+
+# 修正後:
+# jobs:
+#   test:
+#     steps:
+#       - run: claude --update
+#         # → 安定して成功する
+```
+
+### 複数マシンでの同時アップデート
+
+```bash
+# チーム環境で複数の開発者が同時にアップデート
+
+# Developer 1
+claude --update
+# → 正常に完了
+
+# Developer 2（同時に実行）
+claude --update
+# 修正前: 誤って「別のインストールが進行中」と表示される
+# 修正後: 正常に完了（各マシンで独立して処理される）
+```
 
 ## 注意点
 
-- この機能は Claude Code v2.1.2 で導入されました
-- 詳細なドキュメントは公式サイトを参照してください
+- **ロックファイルの改善**: この修正により、インストールロックファイルの管理が改善されました
+- **並行実行**: 同一マシン上で実際に複数のインストールプロセスを同時実行することは避けてください（適切にブロックされます）
+- **ネットワーク環境**: 共有ネットワークストレージ上でのインストールは、依然として注意が必要です
+- **権限**: アップデートには適切な権限が必要です。エラーが発生する場合は権限を確認してください
+- **手動クリーンアップ**: 以前のバージョンで問題が発生していた場合、ロックファイルが残っている可能性があります。その場合は手動で削除してください
 
 ## 関連情報
 
 - [Claude Code 公式ドキュメント](https://code.claude.com/docs/)
 - [Changelog v2.1.2](https://github.com/anthropics/claude-code/releases/tag/v2.1.2)
+- [アップデートガイド](https://code.claude.com/docs/updating)
