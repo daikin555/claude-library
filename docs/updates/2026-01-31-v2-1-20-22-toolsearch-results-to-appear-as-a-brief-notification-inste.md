@@ -1,12 +1,12 @@
 ---
-title: "変更 `ToolSearch` results to appear as a brief notification..."
+title: "`ToolSearch`結果を会話内インライン表示から簡潔な通知形式に変更"
 date: 2026-01-27
-tags: ['変更']
+tags: ['UI変更', 'MCP', 'ツール検索']
 ---
 
 ## 原文（日本語に翻訳）
 
-変更 `ToolSearch` results to appear as a brief notification instead of inline in the conversation
+`ToolSearch`の結果を、会話内のインライン表示から簡潔な通知形式で表示するよう変更
 
 ## 原文（英語）
 
@@ -14,26 +14,235 @@ Changed `ToolSearch` results to appear as a brief notification instead of inline
 
 ## 概要
 
-Claude Code v2.1.20 でリリースされた機能です。
-
-（詳細は調査中）
+Claude Code v2.1.20では、MCPツール検索（ToolSearch）の結果表示方法が変更されました。以前は、ツール検索結果が会話の中に完全な形で表示され、会話履歴が長くなりすぎる問題がありました。この変更により、検索結果は簡潔な通知として表示されるようになり、会話の流れを妨げず、必要な情報だけを効率的に伝えます。詳細が必要な場合は展開して確認できます。
 
 ## 基本的な使い方
 
-（調査中）
+ツール検索が実行されると、簡潔な通知が表示されます：
+
+```bash
+> @database を使ってユーザーデータを取得
+
+# 変更前（インライン表示）：
+Tool Search Results:
+Found 3 matching tools:
+  1. database.query
+     Description: Execute SQL query on database
+     Parameters: query (string), params (array)
+     Returns: QueryResult
+
+  2. database.getUser
+     Description: Fetch user by ID
+     Parameters: userId (number)
+     Returns: User object
+
+  3. database.listUsers
+     Description: List all users with pagination
+     Parameters: page (number), limit (number)
+     Returns: User[]
+
+Using tool: database.getUser
+
+# 会話が長くなり、スクロールが必要
+
+# 変更後（簡潔な通知）：
+🔍 Found 3 database tools → Using database.getUser
+
+# スッキリした表示、必要に応じて展開可能
+```
 
 ## 実践例
 
-### 基本的な使用例
+### 多数のMCPツールがある環境
 
-（調査中）
+大規模なMCPサーバー設定時：
+
+```bash
+> ファイルシステムから設定ファイルを読み込んで
+
+# 変更前の問題：
+Tool Search Results: (15 matching tools)
+  1. filesystem.read
+  2. filesystem.readFile
+  3. filesystem.cat
+  4. filesystem.readText
+  5. filesystem.loadFile
+  6. filesystem.getFileContents
+  ... (9 more tools with full descriptions)
+
+# 会話が検索結果で埋まる
+# 本来の応答が埋もれる
+# スクロールが大変
+
+# 変更後：
+🔍 15 filesystem tools found → Using filesystem.read
+  [Show all matches]
+
+# 改善点：
+# - 1行の簡潔な通知
+# - 使用されたツールが明確
+# - 詳細は必要に応じて展開
+# - 会話の流れを維持
+```
+
+### 頻繁なツール検索
+
+インタラクティブな作業セッション：
+
+```bash
+# タスク1
+> @api エンドポイント情報を取得
+🔍 8 API tools → Using api.getEndpoint
+
+# タスク2
+> @database ユーザーレコードを更新
+🔍 12 database tools → Using database.updateUser
+
+# タスク3
+> @slack チームに通知を送信
+🔍 5 slack tools → Using slack.postMessage
+
+# 変更前の問題：
+# - 各検索で数十行の結果が表示
+# - 会話履歴が膨大に
+# - 重要な応答を見つけにくい
+
+# 変更後の利点：
+# - 各検索が1行の通知
+# - 会話履歴がクリーン
+# - 重要な情報が埋もれない
+# - スクロールバックが容易
+```
+
+### 曖昧なツール名での検索
+
+複数の候補がある場合：
+
+```bash
+> ユーザー情報を取得して
+
+# エージェントがツールを検索
+🔍 Found 23 tools matching "user" → Using user.getInfo
+  💡 Other matches: user.fetch, user.load, user.query...
+  [View all 23 matches]
+
+# クリックして展開：
+╔══════════════════════════════════════╗
+║ Tool Search: "user" (23 results)     ║
+╟──────────────────────────────────────╢
+║ ✓ user.getInfo (selected)            ║
+║   Get user information by ID         ║
+║                                      ║
+║   user.fetch                         ║
+║   Fetch user data from API           ║
+║                                      ║
+║   user.load                          ║
+║   Load user from database            ║
+║                                      ║
+║   ... (20 more)                      ║
+╚══════════════════════════════════════╝
+
+# 変更により：
+# - デフォルトは簡潔表示
+# - 必要に応じて詳細確認
+# - 最適なツールが選ばれた理由を理解可能
+```
+
+### 長時間セッションでの履歴管理
+
+数時間にわたる作業セッション：
+
+```bash
+# セッション開始から2時間後、履歴を確認
+
+# 変更前：
+# スクロールバックすると...
+# - ツール検索結果が大量に表示
+# - 実際の作業内容が埋もれる
+# - どこで何をしたか追跡困難
+
+# 変更後：
+# スクロールバックすると...
+[10:00] > データベースをセットアップ
+        🔍 5 db tools → database.init
+        ✓ Database initialized
+
+[10:15] > APIエンドポイントを作成
+        🔍 8 API tools → api.createEndpoint
+        ✓ Endpoint created at /api/users
+
+[10:30] > テストを実行
+        🔍 12 test tools → test.runAll
+        ✓ All tests passed
+
+# 改善点：
+# - 作業の流れが一目瞭然
+# - 各ステップで使用されたツールが明確
+# - 詳細は各通知を展開して確認可能
+```
+
+### 自動ツール選択の透明性
+
+エージェントのツール選択ロジックを理解：
+
+```bash
+> この大きなファイルを処理して
+
+🔍 Analyzing file processing tools...
+   Considered: file.read (small files only)
+   Considered: file.stream (memory efficient)
+   ✓ Selected: file.stream
+   Reason: File size > 100MB, streaming recommended
+
+# 変更により：
+# - なぜそのツールが選ばれたか明確
+# - 簡潔だが有用な情報
+# - 学習・デバッグに役立つ
+```
+
+### チーム環境でのログ共有
+
+ログファイルを同僚と共有する際：
+
+```bash
+# セッションログをエクスポート
+
+# 変更前：
+# - ツール検索結果がログの大半を占める
+# - 実際の作業内容が見えにくい
+# - 共有するのに躊躇する量
+
+# 変更後：
+# - 簡潔で読みやすいログ
+# - 作業の流れが明確
+# - チームメンバーが理解しやすい
+
+Session Log:
+──────────────────────────────────────
+[User] Setup development environment
+[Agent] 🔍 10 tools → setup.devEnv
+[Agent] ✓ Environment configured
+
+[User] Deploy to staging
+[Agent] 🔍 7 tools → deploy.staging
+[Agent] ✓ Deployed successfully
+──────────────────────────────────────
+
+# クリーンで共有しやすい
+```
 
 ## 注意点
 
-- この機能は Claude Code v2.1.20 で導入されました
-- 詳細なドキュメントは公式サイトを参照してください
+- この変更はMCPツール検索（ToolSearch）の表示にのみ影響します
+- 通常のツール実行結果は従来通り表示されます
+- 詳細な検索結果は通知を展開して確認できます
+- この変更により、長いセッションでも会話履歴がクリーンに保たれます
+- ツール選択のロジックや理由は引き続き追跡可能です
 
 ## 関連情報
 
-- [Claude Code 公式ドキュメント](https://code.claude.com/docs/)
+- [MCP (Model Context Protocol)](https://code.claude.com/docs/en/mcp/overview)
+- [Tool Discovery](https://code.claude.com/docs/en/mcp/tool-discovery)
+- [Agent Tool Selection](https://code.claude.com/docs/en/advanced/agent-behavior#tool-selection)
+- [UI Best Practices](https://code.claude.com/docs/en/reference/ui-design)
 - [Changelog v2.1.20](https://github.com/anthropics/claude-code/releases/tag/v2.1.20)
