@@ -56,7 +56,6 @@ import ArticleCard from './.vitepress/components/ArticleCard.vue'
   display: grid;
   gap: 24px;
   grid-template-columns: 1fr;
-  grid-auto-rows: 1fr;
 }
 
 @media (min-width: 640px) {
@@ -65,7 +64,7 @@ import ArticleCard from './.vitepress/components/ArticleCard.vue'
   }
 
   .updates-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   }
 }
 
@@ -75,7 +74,7 @@ import ArticleCard from './.vitepress/components/ArticleCard.vue'
   }
 
   .updates-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
   }
 }
 </style>
