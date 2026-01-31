@@ -56,6 +56,7 @@ import ArticleCard from './.vitepress/components/ArticleCard.vue'
   display: grid;
   gap: 24px;
   grid-template-columns: 1fr;
+  grid-auto-rows: 1fr;
 }
 
 @media (min-width: 640px) {
