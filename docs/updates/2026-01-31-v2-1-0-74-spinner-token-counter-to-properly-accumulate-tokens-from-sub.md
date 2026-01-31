@@ -1,12 +1,12 @@
 ---
-title: "修正 spinner token counter to properly accumulate tokens fr..."
+title: "実行中にサブエージェントからのトークンを正しく累積するようスピナートークンカウンターを修正"
 date: 2026-01-31
-tags: ['バグ修正']
+tags: ['バグ修正', 'トークンカウンター', 'エージェント']
 ---
 
 ## 原文（日本語に翻訳）
 
-修正 spinner token counter to properly accumulate tokens from subagents during execution
+実行中にサブエージェントからのトークンを正しく累積するよう、スピナートークンカウンターを修正しました
 
 ## 原文（英語）
 
@@ -14,26 +14,16 @@ Fixed spinner token counter to properly accumulate tokens from subagents during 
 
 ## 概要
 
-Claude Code v2.1.0 でリリースされた機能です。
-
-（詳細は調査中）
-
-## 基本的な使い方
-
-（調査中）
-
-## 実践例
-
-### 基本的な使用例
-
-（調査中）
+Claude Code v2.1.0で修正された、トークンカウント表示バグです。以前は、Taskツールでサブエージェントを実行している際、スピナーに表示されるトークンカウンターがサブエージェントの使用トークンを含めずに表示していました。修正後は、親エージェントとサブエージェントのトークンが正しく合算されて表示されます。
 
 ## 注意点
 
-- この機能は Claude Code v2.1.0 で導入されました
-- 詳細なドキュメントは公式サイトを参照してください
+- Claude Code v2.1.0で実装
+- 階層的なエージェント実行時の正確なトークン集計
+- リアルタイムでのトークン使用量表示
+- コスト管理の精度向上
 
 ## 関連情報
 
-- [Claude Code 公式ドキュメント](https://code.claude.com/docs/)
-- [Changelog v2.1.0](https://github.com/anthropics/claude-code/releases/tag/v2.1.0)
+- [Agents - Claude Code Docs](https://code.claude.com/docs/en/agents)
+- [Token usage](https://code.claude.com/docs/en/tokens)
