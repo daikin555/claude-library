@@ -115,4 +115,4 @@ Claude Code 2.1.27で、パーミッション設定の動作が改善されま�
 ## 関連情報
 
 - [Claude Code公式ドキュメント](https://docs.claude.ai/claude-code)
-- [権限管理の強化：ワイルドカード許可とCLAUDE.md](/docs/updates/2026-01-27-permissions-and-claude-md.md)
+- [権限管理の強化：ワイルドカード許可とCLAUDE.md](./2026-01-27-permissions-and-claude-md)
