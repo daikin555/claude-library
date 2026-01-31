@@ -1,12 +1,12 @@
 ---
-title: '修正 the "Context left until auto-compact" warning not disa...'
+title: '/compactコマンド実行後の警告メッセージが消えない問題を修正'
 date: 2026-01-21
-tags: ['バグ修正']
+tags: ['バグ修正', 'コンテキスト管理', 'UI']
 ---
 
 ## 原文（日本語に翻訳）
 
-修正 the "Context left until auto-compact" warning not disappearing after running `/compact`
+`/compact`実行後に「自動圧縮までの残りコンテキスト」警告が消えない問題を修正
 
 ## 原文（英語）
 
@@ -14,26 +14,139 @@ Fixed the "Context left until auto-compact" warning not disappearing after runni
 
 ## 概要
 
-Claude Code v2.1.15 でリリースされた機能です。
-
-（詳細は調査中）
+Claude Code v2.1.15では、`/compact`コマンドを手動で実行した後も「Context left until auto-compact（自動圧縮までの残りコンテキスト）」警告メッセージが表示され続けるバグが修正されました。これまで、ユーザーが会話履歴を手動で圧縮しても警告が消えず、混乱を招いていました。この修正により、`/compact`コマンド実行後は警告が適切に消えるようになり、コンテキスト管理の状態がUIに正確に反映されるようになりました。
 
 ## 基本的な使い方
 
-（調査中）
+### /compactコマンドの使用
+
+会話履歴が長くなり、コンテキストウィンドウの制限に近づくと警告が表示されます。
+
+```bash
+# Claude Codeセッション中
+claude
+
+# 警告メッセージの例:
+# "⚠️ Context left until auto-compact: 10,000 tokens"
+
+# 手動で会話履歴を圧縮
+/compact
+
+# v2.1.15以降: 警告メッセージが正しく消える
+# v2.1.14以前: 警告メッセージが残り続ける（バグ）
+```
+
+### 警告の確認
+
+コンテキスト使用状況を確認するには、ステータスバーまたは`/status`コマンドを使用します。
+
+```bash
+# 現在のコンテキスト使用状況を確認
+/status
+
+# 出力例:
+# Context: 45,000 / 200,000 tokens
+# Model: Claude Sonnet 4.5
+```
 
 ## 実践例
 
-### 基本的な使用例
+### 長時間セッションでのコンテキスト管理
 
-（調査中）
+長時間の開発セッションで会話履歴が蓄積された場合：
+
+```bash
+# 1. 長時間のコーディングセッションを開始
+claude
+
+# 2. 多くのファイルを編集し、会話が長くなる
+# ... 多数のやり取り ...
+
+# 3. 警告が表示される
+# "⚠️ Context left until auto-compact: 15,000 tokens"
+
+# 4. 手動で圧縮を実行
+/compact
+
+# 5. v2.1.15では警告が消え、圧縮が完了したことが確認できる
+# "✓ Conversation compacted. Context reduced by 30,000 tokens."
+```
+
+### 自動圧縮との違い
+
+手動圧縮と自動圧縮の動作の違い：
+
+```bash
+# パターン1: 手動圧縮（ユーザーが制御）
+claude
+# ... 作業中 ...
+# 警告表示: "Context left until auto-compact: 8,000 tokens"
+/compact
+# 警告が即座に消える（v2.1.15で修正）
+
+# パターン2: 自動圧縮（閾値到達時）
+claude
+# ... 作業中 ...
+# 警告表示: "Context left until auto-compact: 1,000 tokens"
+# ... さらに作業を続ける ...
+# 自動的に圧縮が実行される
+# "🔄 Auto-compacting conversation..."
+# 圧縮完了後、警告が消える
+```
+
+### プロンプトエンジニアリングとの組み合わせ
+
+重要な会話を保持しつつ、不要な履歴を圧縮する場合：
+
+```bash
+claude
+
+# 1. 重要な設定や指示を入力
+"このプロジェクトではTypeScriptの厳密モードを使用し、
+関数型プログラミングスタイルを優先してください。"
+
+# 2. 実装作業を進める
+# ... 多数のファイル編集 ...
+
+# 3. コンテキストが増えてきたら手動圧縮
+/compact
+
+# 4. v2.1.15では圧縮後、警告が消えて作業を継続できる
+# 重要な初期指示は圧縮アルゴリズムにより保持される
+```
+
+### 複数のコンテキスト管理コマンドの使用
+
+コンテキスト管理関連の他のコマンドと組み合わせて使用：
+
+```bash
+claude
+
+# 現在の状態を確認
+/status
+
+# 会話履歴が長い場合は圧縮
+/compact
+
+# 新しいトピックに切り替える場合はクリア
+/clear
+
+# 注: /clearは完全にコンテキストをリセット
+# /compactは重要な情報を保持しつつ圧縮
+```
 
 ## 注意点
 
-- この機能は Claude Code v2.1.15 で導入されました
-- 詳細なドキュメントは公式サイトを参照してください
+- **手動圧縮のタイミング**: 警告が表示されたらすぐに圧縮する必要はありません。自動圧縮の閾値に達するまで作業を続けることもできます
+- **圧縮内容の保持**: `/compact`コマンドは、会話の重要な部分（指示、設定、最近のやり取り）を保持しながら、古い詳細を圧縮します
+- **UI更新の即時性**: v2.1.15以降、警告メッセージの表示・非表示がリアルタイムで正確に反映されます
+- **自動圧縮との違い**: 手動圧縮（`/compact`）は任意のタイミングで実行可能ですが、自動圧縮は設定された閾値に達した時のみ自動実行されます
+- **パフォーマンスへの影響**: 圧縮処理は通常数秒で完了しますが、非常に長い会話の場合は若干時間がかかる場合があります
+- **コンテキストの確認**: 圧縮後、重要な情報が保持されているか不安な場合は、Claude Codeに「先ほどの設定を覚えていますか？」と確認できます
 
 ## 関連情報
 
-- [Claude Code 公式ドキュメント](https://code.claude.com/docs/)
+- [Claude Code コンテキスト管理ガイド](https://code.claude.com/docs/context-management)
 - [Changelog v2.1.15](https://github.com/anthropics/claude-code/releases/tag/v2.1.15)
+- [/compactコマンドのドキュメント](https://code.claude.com/docs/commands/compact)
+- [自動圧縮の仕組み](https://code.claude.com/docs/auto-compaction)
