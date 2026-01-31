@@ -1,5 +1,5 @@
 ---
-title: "修正 "Help improve Claude" setting fetch to refresh OAuth a..."
+title: '修正 "Help improve Claude" setting fetch to refresh OAuth a...'
 date: 2026-01-11
 tags: ['バグ修正']
 ---

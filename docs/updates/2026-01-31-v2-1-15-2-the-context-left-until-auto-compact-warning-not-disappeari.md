@@ -1,5 +1,5 @@
 ---
-title: "修正 the "Context left until auto-compact" warning not disa..."
+title: '修正 the "Context left until auto-compact" warning not disa...'
 date: 2026-01-21
 tags: ['バグ修正']
 ---

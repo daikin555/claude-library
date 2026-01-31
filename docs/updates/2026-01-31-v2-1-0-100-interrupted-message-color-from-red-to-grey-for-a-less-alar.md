@@ -1,5 +1,5 @@
 ---
-title: "変更 "Interrupted" message color from red to grey for a les..."
+title: '変更 "Interrupted" message color from red to grey for a less alarming appearance'
 date: 2026-01-07
 tags: ['変更']
 ---

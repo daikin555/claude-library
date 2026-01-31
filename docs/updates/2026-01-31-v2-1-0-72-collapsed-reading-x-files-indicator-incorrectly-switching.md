@@ -1,5 +1,5 @@
 ---
-title: "修正 collapsed "Reading X files…" indicator incorrectly swi..."
+title: '修正 collapsed "Reading X files…" indicator incorrectly swi...'
 date: 2026-01-07
 tags: ['バグ修正']
 ---

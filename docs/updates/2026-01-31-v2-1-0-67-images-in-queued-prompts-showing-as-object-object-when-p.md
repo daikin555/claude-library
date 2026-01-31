@@ -1,5 +1,5 @@
 ---
-title: "修正 images in queued prompts showing as "[object Object]" ..."
+title: '修正 images in queued prompts showing as "[object Object]" ...'
 date: 2026-01-07
 tags: ['バグ修正']
 ---

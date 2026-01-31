@@ -1,5 +1,5 @@
 ---
-title: "変更 collapsed read/search groups to show present tense ("R..."
+title: '変更 collapsed read/search groups to show present tense ("R...'
 date: 2026-01-27
 tags: ['変更']
 ---

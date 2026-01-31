@@ -1,5 +1,5 @@
 ---
-title: "改善 read/search progress indicators to show "Reading…" whi..."
+title: '改善 read/search progress indicators to show "Reading…" whi...'
 date: 2026-01-28
 tags: ['改善']
 ---
