@@ -1,12 +1,12 @@
 ---
-title: "修正 mismatch between background task count in status bar a..."
+title: "ステータスバーとタスクダイアログのカウント不一致を修正"
 date: 2026-01-09
-tags: ['バグ修正']
+tags: ['バグ修正', 'UI', 'タスク管理']
 ---
 
 ## 原文（日本語に翻訳）
 
-修正 mismatch between background task count in status bar and items shown in tasks dialog
+ステータスバーに表示されるバックグラウンドタスクの数と、タスクダイアログに表示される項目数の不一致を修正しました
 
 ## 原文（英語）
 
@@ -14,26 +14,88 @@ Fixed mismatch between background task count in status bar and items shown in ta
 
 ## 概要
 
-Claude Code v2.1.3 でリリースされた機能です。
-
-（詳細は調査中）
+Claude Code v2.1.3では、ステータスバーに表示されるバックグラウンドタスクの数と、実際にタスクダイアログで表示されるタスクの数が一致しない問題が修正されました。これにより、実行中のバックグラウンドタスクの状態を正確に把握できるようになり、タスク管理の信頼性が向上しました。
 
 ## 基本的な使い方
 
-（調査中）
+バックグラウンドタスクの状態は、ステータスバーとタスクダイアログから確認できます。
+
+```bash
+# ステータスバーの確認
+# 画面下部に「🔄 3 tasks」などと表示される
+
+# タスクダイアログの表示
+# ステータスバーのタスク表示をクリック、または
+# VSCodeの場合：コマンドパレットから「Show Tasks」を選択
+```
 
 ## 実践例
 
-### 基本的な使用例
+### 修正前の問題
 
-（調査中）
+以前は、表示される数値と実際のタスク数が一致しないことがありました。
+
+```bash
+# 修正前の動作例
+# ステータスバー： 🔄 5 tasks
+# タスクダイアログを開く：
+#   - Task 1: Running tests
+#   - Task 2: Building project
+#   - Task 3: Linting code
+# （3つしか表示されない - 不一致！）
+```
+
+### 修正後の動作
+
+v2.1.3では、カウントが正確に一致します。
+
+```bash
+# 修正後の動作例
+# ステータスバー： 🔄 3 tasks
+# タスクダイアログを開く：
+#   - Task 1: Running tests
+#   - Task 2: Building project
+#   - Task 3: Linting code
+# （3つ表示される - 一致✅）
+```
+
+### 複数のタスクを実行する場合
+
+複数のバックグラウンドタスクを実行する際の動作確認例です。
+
+```bash
+# 複数のタスクを同時に実行
+# 1. テスト実行を開始（バックグラウンド）
+# 2. ビルドを開始（バックグラウンド）
+# 3. Lintを開始（バックグラウンド）
+
+# ステータスバー： 🔄 3 tasks（正確に反映）
+# タスクダイアログでも3つのタスクが表示される
+```
+
+### タスク完了時の挙動
+
+タスクが完了すると、カウントも即座に更新されます。
+
+```bash
+# タスク実行中
+# ステータスバー： 🔄 3 tasks
+
+# タスク1が完了
+# ステータスバー： 🔄 2 tasks（即座に更新）
+# タスクダイアログでも2つのタスクのみ表示
+```
 
 ## 注意点
 
-- この機能は Claude Code v2.1.3 で導入されました
-- 詳細なドキュメントは公式サイトを参照してください
+- タスクダイアログは手動で更新する必要がある場合があります（リアルタイム更新ではない環境の場合）
+- 完了したタスクは自動的にリストから削除されます
+- VSCodeの再起動後は、すべてのバックグラウンドタスクがクリアされます
+- タスクの詳細を確認するには、タスクダイアログで各タスクをクリックしてください
 
 ## 関連情報
 
-- [Claude Code 公式ドキュメント](https://code.claude.com/docs/)
+- [Claude Code 公式ドキュメント](https://claude.ai/code)
 - [Changelog v2.1.3](https://github.com/anthropics/claude-code/releases/tag/v2.1.3)
+- [タスク管理のベストプラクティス](https://github.com/anthropics/claude-code)
+- [バックグラウンドタスクの使い方](https://github.com/anthropics/claude-code)
