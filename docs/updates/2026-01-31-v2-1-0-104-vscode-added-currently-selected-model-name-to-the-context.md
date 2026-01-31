@@ -1,6 +1,6 @@
 ---
 title: "[VSCode] Added currently selected model name to the conte..."
-date: 2026-01-07
+date: 2026-01-31
 tags: ['VSCode']
 ---
 

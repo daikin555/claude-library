@@ -1,6 +1,6 @@
 ---
 title: "追加 `language` setting to configure Claude's response lang..."
-date: 2026-01-07
+date: 2026-01-31
 tags: ['新機能']
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: "追加 `/teleport` and `/remote-env` slash commands for claud..."
-date: 2026-01-07
+date: 2026-01-31
 tags: ['新機能', 'コマンド']
 ---
 

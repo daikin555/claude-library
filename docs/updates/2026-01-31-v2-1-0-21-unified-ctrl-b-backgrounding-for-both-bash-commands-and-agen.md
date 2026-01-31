@@ -1,6 +1,6 @@
 ---
 title: "追加 unified Ctrl+B backgrounding for both bash commands an..."
-date: 2026-01-07
+date: 2026-01-31
 tags: ['新機能', 'bash', 'コマンド']
 ---
 

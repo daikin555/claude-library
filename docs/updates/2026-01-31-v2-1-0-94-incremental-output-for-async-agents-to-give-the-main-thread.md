@@ -1,6 +1,6 @@
 ---
 title: "改善 incremental output for async agents to give the main t..."
-date: 2026-01-07
+date: 2026-01-31
 tags: ['改善']
 ---
 

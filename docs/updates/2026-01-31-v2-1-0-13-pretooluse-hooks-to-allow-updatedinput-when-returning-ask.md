@@ -1,6 +1,6 @@
 ---
 title: "修正 PreToolUse hooks to allow `updatedInput` when returnin..."
-date: 2026-01-07
+date: 2026-01-31
 tags: ['バグ修正', 'hooks', 'パーミッション']
 ---
 

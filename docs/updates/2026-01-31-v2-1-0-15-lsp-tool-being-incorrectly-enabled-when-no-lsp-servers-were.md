@@ -1,6 +1,6 @@
 ---
 title: "修正 LSP tool being incorrectly enabled when no LSP servers..."
-date: 2026-01-07
+date: 2026-01-31
 tags: ['バグ修正']
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: "修正 slash commands passed as CLI arguments (e.g., `claude ..."
-date: 2026-01-07
+date: 2026-01-31
 tags: ['バグ修正', 'コマンド']
 ---
 

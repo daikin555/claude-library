@@ -1,6 +1,6 @@
 ---
 title: "追加 filepath to full output in background bash task detail..."
-date: 2026-01-07
+date: 2026-01-31
 tags: ['新機能', 'bash']
 ---
 

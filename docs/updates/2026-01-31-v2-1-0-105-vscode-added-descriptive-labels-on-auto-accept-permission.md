@@ -1,6 +1,6 @@
 ---
 title: "[VSCode] Added descriptive labels on auto-accept permissi..."
-date: 2026-01-07
+date: 2026-01-31
 tags: ['VSCode', 'パーミッション']
 ---
 

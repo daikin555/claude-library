@@ -1,6 +1,6 @@
 ---
 title: "改善 subagents (Task tool) to continue working after permis..."
-date: 2026-01-07
+date: 2026-01-31
 tags: ['改善', 'パーミッション']
 ---
 

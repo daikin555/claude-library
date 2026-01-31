@@ -1,6 +1,6 @@
 ---
 title: "[SDK] Changed minimum zod peer dependency to ^4.0.0"
-date: 2026-01-07
+date: 2026-01-31
 tags: ['その他']
 ---
 

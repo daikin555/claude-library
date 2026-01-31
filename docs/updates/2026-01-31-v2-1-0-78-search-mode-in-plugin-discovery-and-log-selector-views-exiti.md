@@ -1,6 +1,6 @@
 ---
 title: "修正 search mode in plugin discovery and log selector views..."
-date: 2026-01-07
+date: 2026-01-31
 tags: ['バグ修正']
 ---
 

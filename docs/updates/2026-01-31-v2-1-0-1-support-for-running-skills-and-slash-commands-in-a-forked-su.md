@@ -1,6 +1,6 @@
 ---
 title: "追加 support for running skills and slash commands in a for..."
-date: 2026-01-07
+date: 2026-01-31
 tags: ['新機能', 'コマンド']
 ---
 

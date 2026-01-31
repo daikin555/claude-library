@@ -1,6 +1,6 @@
 ---
 title: "Reduced permission prompts for complex bash commands"
-date: 2026-01-07
+date: 2026-01-31
 tags: ['bash', 'パーミッション', 'コマンド']
 ---
 

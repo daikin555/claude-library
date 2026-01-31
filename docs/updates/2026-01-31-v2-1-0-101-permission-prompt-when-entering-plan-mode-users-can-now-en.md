@@ -1,6 +1,6 @@
 ---
 title: "削除 permission prompt when entering plan mode - users can ..."
-date: 2026-01-07
+date: 2026-01-31
 tags: ['パーミッション']
 ---
 

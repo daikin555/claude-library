@@ -1,6 +1,6 @@
 ---
 title: "改善 skills to show progress while executing, displaying to..."
-date: 2026-01-07
+date: 2026-01-31
 tags: ['改善']
 ---
 

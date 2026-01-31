@@ -1,6 +1,6 @@
 ---
 title: "追加 `/plan` command shortcut to enable plan mode directly ..."
-date: 2026-01-07
+date: 2026-01-31
 tags: ['新機能', 'コマンド']
 ---
 

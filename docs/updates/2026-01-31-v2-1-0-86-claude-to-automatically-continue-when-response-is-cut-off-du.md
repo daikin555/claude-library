@@ -1,6 +1,6 @@
 ---
 title: "改善 Claude to automatically continue when response is cut ..."
-date: 2026-01-07
+date: 2026-01-31
 tags: ['改善']
 ---
 

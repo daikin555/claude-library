@@ -1,6 +1,6 @@
 ---
 title: "改善 CLI help output to display options and subcommands in ..."
-date: 2026-01-07
+date: 2026-01-31
 tags: ['改善', 'コマンド']
 ---
 

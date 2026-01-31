@@ -1,6 +1,6 @@
 ---
 title: "追加 Cmd+V support for image paste in iTerm2 (maps to Ctrl+V)"
-date: 2026-01-07
+date: 2026-01-31
 tags: ['新機能']
 ---
 

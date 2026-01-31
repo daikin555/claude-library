@@ -1,6 +1,6 @@
 ---
 title: "追加 support for prompt and agent hook types from plugins (..."
-date: 2026-01-07
+date: 2026-01-31
 tags: ['新機能', 'hooks', 'コマンド']
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: "改善 reliability for piped input like `cat refactor.md | cl..."
-date: 2026-01-07
+date: 2026-01-31
 tags: ['改善']
 ---
 

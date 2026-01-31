@@ -1,6 +1,6 @@
 ---
 title: "修正 duplicate Bash commands appearing in permission reques..."
-date: 2026-01-07
+date: 2026-01-31
 tags: ['バグ修正', 'bash', 'パーミッション', 'コマンド']
 ---
 

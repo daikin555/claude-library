@@ -1,6 +1,6 @@
 ---
 title: "修正 extra blank lines in multiline prompts containing CJK ..."
-date: 2026-01-07
+date: 2026-01-31
 tags: ['バグ修正']
 ---
 

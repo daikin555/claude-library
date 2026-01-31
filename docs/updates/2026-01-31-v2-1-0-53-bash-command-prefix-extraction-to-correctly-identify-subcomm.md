@@ -1,6 +1,6 @@
 ---
 title: "修正 bash command prefix extraction to correctly identify s..."
-date: 2026-01-07
+date: 2026-01-31
 tags: ['バグ修正', 'bash', 'コマンド']
 ---
 

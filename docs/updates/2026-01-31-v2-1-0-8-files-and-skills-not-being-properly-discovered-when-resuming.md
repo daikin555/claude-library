@@ -1,6 +1,6 @@
 ---
 title: "修正 files and skills not being properly discovered when re..."
-date: 2026-01-07
+date: 2026-01-31
 tags: ['バグ修正']
 ---
 

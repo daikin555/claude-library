@@ -1,6 +1,6 @@
 ---
 title: "改善 spinner feedback when waiting for the first response t..."
-date: 2026-01-07
+date: 2026-01-31
 tags: ['改善']
 ---
 

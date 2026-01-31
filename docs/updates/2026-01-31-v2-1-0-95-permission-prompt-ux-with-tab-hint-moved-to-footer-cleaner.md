@@ -1,6 +1,6 @@
 ---
 title: "改善 permission prompt UX with Tab hint moved to footer, cl..."
-date: 2026-01-07
+date: 2026-01-31
 tags: ['改善', 'パーミッション']
 ---
 

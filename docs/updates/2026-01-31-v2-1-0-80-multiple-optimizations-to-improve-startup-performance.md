@@ -1,6 +1,6 @@
 ---
 title: "Multiple optimizations to improve startup performance"
-date: 2026-01-07
+date: 2026-01-31
 tags: ['その他']
 ---
 

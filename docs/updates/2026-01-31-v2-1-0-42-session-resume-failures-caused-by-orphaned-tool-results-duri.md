@@ -1,6 +1,6 @@
 ---
 title: "修正 session resume failures caused by orphaned tool result..."
-date: 2026-01-07
+date: 2026-01-31
 tags: ['バグ修正']
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: "修正 OAuth token refresh not triggering when server reports..."
-date: 2026-01-07
+date: 2026-01-31
 tags: ['バグ修正']
 ---
 

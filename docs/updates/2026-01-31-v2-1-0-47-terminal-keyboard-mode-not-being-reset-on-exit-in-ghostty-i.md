@@ -1,6 +1,6 @@
 ---
 title: "修正 terminal keyboard mode not being reset on exit in Ghos..."
-date: 2026-01-07
+date: 2026-01-31
 tags: ['バグ修正']
 ---
 

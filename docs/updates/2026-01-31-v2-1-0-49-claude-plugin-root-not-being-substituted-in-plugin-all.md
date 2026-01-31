@@ -1,6 +1,6 @@
 ---
 title: "修正 `${CLAUDE_PLUGIN_ROOT}` not being substituted in plugi..."
-date: 2026-01-07
+date: 2026-01-31
 tags: ['バグ修正']
 ---
 

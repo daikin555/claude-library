@@ -1,6 +1,6 @@
 ---
 title: "修正 subagents sometimes not inheriting the parent's model ..."
-date: 2026-01-07
+date: 2026-01-31
 tags: ['バグ修正']
 ---
 

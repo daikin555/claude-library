@@ -1,6 +1,6 @@
 ---
 title: "修正 Esc key with queued prompts to only move them to input..."
-date: 2026-01-07
+date: 2026-01-31
 tags: ['バグ修正']
 ---
 

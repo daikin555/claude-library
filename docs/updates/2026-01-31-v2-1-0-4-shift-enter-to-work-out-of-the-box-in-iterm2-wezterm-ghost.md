@@ -1,6 +1,6 @@
 ---
 title: "変更 Shift+Enter to work out of the box in iTerm2, WezTerm,..."
-date: 2026-01-07
+date: 2026-01-31
 tags: ['変更']
 ---
 
