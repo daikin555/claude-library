@@ -119,5 +119,5 @@ claude --from-pr 123
 ## 関連情報
 
 - [Claude Code公式ドキュメント](https://docs.claude.ai/claude-code)
-- [--from-pr フラグの使い方](/docs/updates/2026-01-31-from-pr-flag.md)
+- [--from-pr フラグの使い方](./2026-01-31-from-pr-flag)
 - [GitHub CLI (gh) ドキュメント](https://cli.github.com/)
