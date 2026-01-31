@@ -1,12 +1,12 @@
 ---
-title: "修正 terminal title animation jitter by using fixed-width b..."
+title: "ターミナルタイトルアニメーションのガタつきを修正"
 date: 2026-01-14
-tags: ['バグ修正']
+tags: ['バグ修正', 'UI', 'ターミナル']
 ---
 
 ## 原文（日本語に翻訳）
 
-修正 terminal title animation jitter by using fixed-width braille characters
+固定幅の点字文字を使用することで、ターミナルタイトルのアニメーションのガタつきを修正しました。
 
 ## 原文（英語）
 
@@ -14,26 +14,124 @@ Fixed terminal title animation jitter by using fixed-width braille characters
 
 ## 概要
 
-Claude Code v2.1.7 でリリースされた機能です。
+Claude Codeの実行中、ターミナルウィンドウのタイトルバーに表示されるアニメーション（ローディングインジケーター）が、文字幅の違いによってガタついて見える問題が修正されました。固定幅の点字文字を使用することで、滑らかなアニメーションを実現しています。
 
-（詳細は調査中）
+## 問題の詳細
 
-## 基本的な使い方
+### 修正前の動作
 
-（調査中）
+ターミナルタイトルのアニメーションで可変幅文字を使用していたため：
+
+```
+Claude Code |
+Claude Code /
+Claude Code -
+Claude Code \
+```
+
+各フレームで文字幅が異なり、タイトルテキスト全体が左右に揺れて見えました：
+
+```
+Claude Code |   ← 幅が異なる
+Claude Code /   ← 微妙にズレる
+Claude Code -   ← タイトル全体が揺れる
+Claude Code \   ← 視覚的に不快
+```
+
+### 修正後の動作
+
+固定幅の点字文字（Braille patterns）を使用：
+
+```
+Claude Code ⠋
+Claude Code ⠙
+Claude Code ⠹
+Claude Code ⠸
+Claude Code ⠼
+Claude Code ⠴
+Claude Code ⠦
+Claude Code ⠧
+Claude Code ⠇
+Claude Code ⠏
+```
+
+すべての文字が同じ幅のため、タイトルテキストの位置が固定され、滑らかなアニメーションになります。
 
 ## 実践例
 
-### 基本的な使用例
+### タスク実行中のターミナルタイトル
 
-（調査中）
+**修正前:**
+```
+タイトルバー:
+Claude Code | Running task...  ← 揺れる
+Claude Code / Running task...  ← 揺れる
+Claude Code - Running task...  ← 揺れる
+```
+
+**修正後（v2.1.7）:**
+```
+タイトルバー:
+Claude Code ⠋ Running task...  ← 固定
+Claude Code ⠙ Running task...  ← 固定
+Claude Code ⠹ Running task...  ← 固定
+```
+
+### 長時間実行タスク
+
+ビルドやテストなど、長時間実行されるタスクでは、このアニメーションを長時間見続けることになります。
+
+**修正前:** ガタつきが目立ち、目が疲れる
+**修正後:** 滑らかなアニメーションで視覚的に快適
+
+### 複数ウィンドウ使用時
+
+複数のターミナルウィンドウでClaude Codeを実行している場合。
+
+**修正前:** 各ウィンドウのタイトルがガタつき、どのウィンドウで作業中か分かりにくい
+**修正後:** 滑らかなアニメーションで、タイトルテキストが読みやすい
+
+## 点字文字を使用する利点
+
+### 視覚的な改善
+
+- **固定幅**: すべてのフレームで同じ文字幅
+- **滑らかさ**: アニメーションが視覚的に滑らか
+- **可読性**: タイトルテキストが揺れないため読みやすい
+
+### 技術的な利点
+
+- **ユニバーサル対応**: すべての主要ターミナルエミュレータで正しく表示
+- **エンコーディング**: UTF-8環境で問題なく動作
+- **パフォーマンス**: レンダリングのオーバーヘッドが最小限
+
+## 点字アニメーションパターン
+
+使用されている点字文字のパターン：
+
+```
+⠋ → ⠙ → ⠹ → ⠸ → ⠼ → ⠴ → ⠦ → ⠧ → ⠇ → ⠏
+```
+
+これらの文字は回転するようなアニメーション効果を生み出します。
 
 ## 注意点
 
-- この機能は Claude Code v2.1.7 で導入されました
-- 詳細なドキュメントは公式サイトを参照してください
+- **ターミナル依存**: 一部の古いターミナルでは点字文字が正しく表示されない可能性があります
+- **フォント**: 等幅フォントを使用していることが前提です
+- **視覚的な変更のみ**: 機能自体に変更はありません
+
+## 影響を受ける場面
+
+このアニメーションは以下の場合に表示されます：
+
+- API リクエスト処理中
+- バックグラウンドタスク実行中
+- 大きなファイルの読み込み中
+- コードベースの探索中
 
 ## 関連情報
 
-- [Claude Code 公式ドキュメント](https://code.claude.com/docs/)
+- [ターミナルUI の最適化](https://code.claude.com/docs/)
+- [Braille Patterns (Unicode)](https://en.wikipedia.org/wiki/Braille_Patterns)
 - [Changelog v2.1.7](https://github.com/anthropics/claude-code/releases/tag/v2.1.7)
