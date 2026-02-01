@@ -1,12 +1,12 @@
 ---
-title: '修正 images in queued prompts showing as "[object Object]" ...'
-date: 2026-01-07
-tags: ['バグ修正']
+title: "Escキャンセル時にキューされたプロンプトの画像が[object Object]と表示される問題を修正"
+date: 2026-01-31
+tags: ['バグ修正', '画像', 'UI']
 ---
 
 ## 原文（日本語に翻訳）
 
-修正 images in queued prompts showing as "[object Object]" when pressing Esc to cancel
+Escキーを押してキャンセルする際に、キューされたプロンプト内の画像が"[object Object]"と表示される問題を修正しました
 
 ## 原文（英語）
 
@@ -14,26 +14,15 @@ Fixed images in queued prompts showing as "[object Object]" when pressing Esc to
 
 ## 概要
 
-Claude Code v2.1.0 でリリースされた機能です。
-
-（詳細は調査中）
-
-## 基本的な使い方
-
-（調査中）
-
-## 実践例
-
-### 基本的な使用例
-
-（調査中）
+Claude Code v2.1.0で修正された、画像表示のバグです。以前は、画像を含むプロンプトがキューに入っている状態でEscキーを押してキャンセルすると、画像が技術的なエラー表記"[object Object]"として表示されていました。修正後は、画像が正しくプレビュー表示またはファイル名として表示されます。
 
 ## 注意点
 
-- この機能は Claude Code v2.1.0 で導入されました
-- 詳細なドキュメントは公式サイトを参照してください
+- Claude Code v2.1.0で実装
+- 画像オブジェクトの文字列変換を修正
+- キャンセル時のUI表示改善
+- ユーザーフレンドリーな画像表示
 
 ## 関連情報
 
-- [Claude Code 公式ドキュメント](https://code.claude.com/docs/)
-- [Changelog v2.1.0](https://github.com/anthropics/claude-code/releases/tag/v2.1.0)
+- [Image support - Claude Code Docs](https://code.claude.com/docs/en/images)

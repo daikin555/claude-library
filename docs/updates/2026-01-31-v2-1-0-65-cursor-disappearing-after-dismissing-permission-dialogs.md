@@ -1,12 +1,12 @@
 ---
-title: "修正 cursor disappearing after dismissing permission dialogs"
-date: 2026-01-07
-tags: ['バグ修正', 'パーミッション']
+title: "パーミッションダイアログ終了後にカーソルが消える問題を修正"
+date: 2026-01-31
+tags: ['バグ修正', 'パーミッション', 'UI', 'カーソル']
 ---
 
 ## 原文（日本語に翻訳）
 
-修正 cursor disappearing after dismissing permission dialogs
+パーミッションダイアログを閉じた後にカーソルが消える問題を修正しました
 
 ## 原文（英語）
 
@@ -14,26 +14,15 @@ Fixed cursor disappearing after dismissing permission dialogs
 
 ## 概要
 
-Claude Code v2.1.0 でリリースされた機能です。
-
-（詳細は調査中）
-
-## 基本的な使い方
-
-（調査中）
-
-## 実践例
-
-### 基本的な使用例
-
-（調査中）
+Claude Code v2.1.0で修正された、パーミッションダイアログUIのバグです。以前は、パーミッション要求ダイアログを承認または拒否して閉じた後、ターミナルのカーソルが消えてしまい、次の入力ができなくなることがありました。修正後は、ダイアログを閉じてもカーソルが正常に表示され続け、スムーズに次の操作に移行できます。
 
 ## 注意点
 
-- この機能は Claude Code v2.1.0 で導入されました
-- 詳細なドキュメントは公式サイトを参照してください
+- Claude Code v2.1.0で実装
+- カーソル表示の復元処理を改善
+- ダイアログ終了後のUI状態管理の修正
+- ユーザーの操作フローが中断されない
 
 ## 関連情報
 
-- [Claude Code 公式ドキュメント](https://code.claude.com/docs/)
-- [Changelog v2.1.0](https://github.com/anthropics/claude-code/releases/tag/v2.1.0)
+- [Permissions - Claude Code Docs](https://code.claude.com/docs/en/permissions)

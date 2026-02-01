@@ -1,12 +1,12 @@
 ---
-title: "修正 noisy output when background tasks complete - now show..."
-date: 2026-01-07
-tags: ['バグ修正']
+title: "バックグラウンドタスク完了時のノイズ出力を修正"
+date: 2026-01-31
+tags: ['バグ修正', 'バックグラウンドタスク', 'UX']
 ---
 
 ## 原文（日本語に翻訳）
 
-修正 noisy output when background tasks complete - now shows clean completion message instead of raw output
+バックグラウンドタスク完了時のノイズの多い出力を修正 - 生の出力の代わりにクリーンな完了メッセージを表示するようにしました
 
 ## 原文（英語）
 
@@ -14,26 +14,15 @@ Fixed noisy output when background tasks complete - now shows clean completion m
 
 ## 概要
 
-Claude Code v2.1.0 でリリースされた機能です。
-
-（詳細は調査中）
-
-## 基本的な使い方
-
-（調査中）
-
-## 実践例
-
-### 基本的な使用例
-
-（調査中）
+Claude Code v2.1.0で修正された、バックグラウンドタスク完了通知の表示改善です。以前は、バックグラウンドタスクが完了すると、生のログや技術的な出力がそのまま表示されていました。修正後は、簡潔でクリーンな完了メッセージが表示されるようになり、ユーザーエクスペリエンスが向上しました。
 
 ## 注意点
 
-- この機能は Claude Code v2.1.0 で導入されました
-- 詳細なドキュメントは公式サイトを参照してください
+- Claude Code v2.1.0で実装
+- バックグラウンドタスク完了通知のクリーン化
+- 技術的なノイズを排除
+- 読みやすい完了メッセージ
 
 ## 関連情報
 
-- [Claude Code 公式ドキュメント](https://code.claude.com/docs/)
-- [Changelog v2.1.0](https://github.com/anthropics/claude-code/releases/tag/v2.1.0)
+- [Background tasks - Claude Code Docs](https://code.claude.com/docs/en/background-tasks)
