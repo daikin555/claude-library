@@ -63,7 +63,10 @@ jobs:
 
             ## 重要な日付情報:
             - **ファイル名に使用する日付**: 環境変数 $TODAY_DATE の値を使用してください（今日の日付: $TODAY_DATE）
-            - **frontmatter dateフィールド**: changelogに記載されているリリース日付を使用してください
+            - **frontmatter dateフィールド**: 環境変数 $TODAY_DATE の値を使用してください
+              - ⚠️ 重要: バージョン番号（例: 2.1.29, v2.1.0など）を日付として使用しないでください
+              - 日付は必ず YYYY-MM-DD 形式（例: 2026-02-01）である必要があります
+              - changelogにリリース日付が明記されていても、混乱を避けるため常に $TODAY_DATE を使用してください
 
             ## 作業指示:
             1. data/new-entries.md を読み取り、新しいエントリの内容を分析してください
@@ -75,17 +78,19 @@ jobs:
                ```yaml
                ---
                title: "記事タイトル"
-               date: YYYY-MM-DD  # ← changelogのリリース日付
+               date: $TODAY_DATE  # ← 環境変数をそのまま使用
                tags: [関連タグ]
                ---
                ```
-            5. 記事の内容には以下を含めてください:
+            5. frontmatterの作成後、dateフィールドが正しいYYYY-MM-DD形式（例: 2026-02-01）になっているか必ず確認してください
+               - バージョン番号（例: 2.1.29）になっている場合は誤りです
+            6. 記事の内容には以下を含めてください:
                - 機能の概要（2-3文）
                - 具体的な使い方・コマンド例
                - 実践的な活用シーン
                - 注意点やTips
-            6. すべて日本語で記述してください
-            7. 変更をコミットしてください
+            7. すべて日本語で記述してください
+            8. 変更をコミットしてください
 
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           claude_args: "--allowedTools Edit,Write,\"Bash(git commit:*)\",\"Bash(git add:*)\",Read,Glob,WebSearch,WebFetch"
