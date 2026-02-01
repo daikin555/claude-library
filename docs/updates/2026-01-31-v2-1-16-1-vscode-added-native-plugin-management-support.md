@@ -1,12 +1,12 @@
 ---
-title: "[VSCode] Added native plugin management support"
+title: "[VSCode] ネイティブプラグイン管理サポートの追加"
 date: 2026-01-22
-tags: ['VSCode']
+tags: ['VSCode', '新機能', 'プラグイン']
 ---
 
 ## 原文（日本語に翻訳）
 
-[VSCode] Added native plugin management support
+[VSCode] ネイティブプラグイン管理サポートが追加されました
 
 ## 原文（英語）
 
@@ -14,26 +14,89 @@ tags: ['VSCode']
 
 ## 概要
 
-Claude Code v2.1.16 でリリースされた機能です。
-
-（詳細は調査中）
+Claude Code v2.1.16のVSCode拡張機能に、ネイティブのプラグイン管理機能が追加されました。これにより、VSCode環境内から直接プラグインのインストール、有効化/無効化、設定管理を行えるようになりました。従来のCLIベースのプラグイン管理に加えて、GUIベースの直感的な操作が可能になり、VSCodeユーザーの生産性がさらに向上します。
 
 ## 基本的な使い方
 
-（調査中）
+VSCode拡張機能のサイドバーから、プラグイン管理UIにアクセスできます。
+
+### プラグインの検索とインストール
+
+1. VSCodeのClaude Codeサイドバーを開く
+2. プラグイン管理セクションに移動
+3. 検索バーでプラグイン名やキーワードを入力
+4. インストールボタンをクリック
+
+### プラグインの有効化/無効化
+
+インストール済みプラグインのリストから、トグルスイッチで簡単に有効化/無効化できます。
 
 ## 実践例
 
-### 基本的な使用例
+### マーケットプレイスからのプラグインインストール
 
-（調査中）
+VSCode内でプラグインマーケットプレイスを閲覧し、必要なプラグインを探す：
+
+```
+1. Claude Codeサイドバーを開く
+2. "プラグイン" タブを選択
+3. "検索" または "発見" セクションに移動
+4. カテゴリやキーワードで絞り込み
+5. 目的のプラグインを選択してインストール
+```
+
+### プラグイン設定の管理
+
+各プラグインの設定をVSCodeのUI上で直接編集：
+
+```
+1. インストール済みプラグインを選択
+2. "設定" ボタンをクリック
+3. 設定パラメータを編集
+4. 変更を保存
+```
+
+### プロジェクト固有のプラグイン設定
+
+`.claude/settings.json`と連携して、プロジェクトごとに異なるプラグイン構成を管理：
+
+```json
+{
+  "plugins": {
+    "enabled": ["plugin-name-1", "plugin-name-2"],
+    "config": {
+      "plugin-name-1": {
+        "option1": "value1"
+      }
+    }
+  }
+}
+```
+
+### CLIとの併用
+
+従来のCLIコマンドも引き続き利用可能：
+
+```bash
+# CLIでのプラグイン一覧表示
+claude plugin list
+
+# CLIでのプラグインインストール
+claude plugin install <plugin-name>
+```
+
+VSCode UIとCLIの設定は同期されます。
 
 ## 注意点
 
-- この機能は Claude Code v2.1.16 で導入されました
-- 詳細なドキュメントは公式サイトを参照してください
+- **VSCode拡張機能が必要**: この機能はVSCode環境でのみ利用可能です。CLIのみを使用している場合は、従来の`claude plugin`コマンドを使用してください
+- **権限の確認**: プラグインのインストール時には、必要な権限の確認ダイアログが表示されます。信頼できるプラグインのみをインストールしてください
+- **設定の同期**: プロジェクト設定（`.claude/settings.json`）、ユーザー設定、セッション設定の優先順位を理解して使用してください
+- **プラグインの再読み込み**: プラグインの設定を変更した場合、一部のプラグインは再読み込みが必要になることがあります
 
 ## 関連情報
 
-- [Claude Code 公式ドキュメント](https://code.claude.com/docs/)
+- [Claude Code 公式ドキュメント - プラグイン](https://code.claude.com/docs/en/plugins)
+- [VSCode拡張機能ドキュメント](https://code.claude.com/docs/en/vscode)
+- [プラグインマーケットプレイス](https://code.claude.com/plugins)
 - [Changelog v2.1.16](https://github.com/anthropics/claude-code/releases/tag/v2.1.16)

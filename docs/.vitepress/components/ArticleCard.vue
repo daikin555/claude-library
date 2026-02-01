@@ -58,6 +58,7 @@ function getTagStyle(tag: string) {
   color: inherit;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   height: 100%;
+  min-height: 280px;
   min-width: 0;
   overflow: hidden;
 }
@@ -74,6 +75,11 @@ function getTagStyle(tag: string) {
   font-weight: 600;
   color: var(--vp-c-text-1);
   line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 50px;
   word-break: break-word;
   overflow-wrap: break-word;
 }

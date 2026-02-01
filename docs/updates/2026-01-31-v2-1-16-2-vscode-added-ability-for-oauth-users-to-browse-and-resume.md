@@ -1,12 +1,12 @@
 ---
-title: "[VSCode] Added ability for OAuth users to browse and resu..."
+title: "[VSCode] OAuthユーザー向けリモートセッション管理機能の追加"
 date: 2026-01-22
-tags: ['VSCode']
+tags: ['VSCode', '新機能', 'セッション管理', 'OAuth']
 ---
 
 ## 原文（日本語に翻訳）
 
-[VSCode] Added ability for OAuth users to browse and resume remote Claude sessions from the Sessions dialog
+[VSCode] OAuthユーザーがセッションダイアログからリモートのClaudeセッションを閲覧・再開できる機能が追加されました
 
 ## 原文（英語）
 
@@ -14,26 +14,93 @@ tags: ['VSCode']
 
 ## 概要
 
-Claude Code v2.1.16 でリリースされた機能です。
-
-（詳細は調査中）
+Claude Code v2.1.16のVSCode拡張機能に、OAuthユーザー向けのリモートセッション管理機能が追加されました。この機能により、VSCode内から直接、claude.aiのウェブセッションを閲覧し、再開できるようになりました。これにより、ブラウザとVSCode間でシームレスに作業を継続できるようになり、開発ワークフローの柔軟性が大幅に向上します。
 
 ## 基本的な使い方
 
-（調査中）
+VSCodeのセッションダイアログから、リモートセッションにアクセスできます。
+
+### セッションダイアログを開く
+
+1. VSCodeでClaude Code拡張機能を開く
+2. セッション管理アイコンをクリック、または `/resume` コマンドを実行
+3. リモートセッションタブに切り替え
+
+### リモートセッションの閲覧
+
+ログインしているアカウントのすべてのclaude.aiセッションが一覧表示されます。各セッションには以下の情報が表示されます：
+
+- セッションのタイトル
+- 最終更新日時
+- 使用したモデル
+- プレビュー（最後のやり取り）
+
+### セッションの再開
+
+リストから目的のセッションを選択し、「再開」ボタンをクリックすると、VSCode環境でそのセッションを続行できます。
 
 ## 実践例
 
-### 基本的な使用例
+### ブラウザからVSCodeへの作業移行
 
-（調査中）
+ウェブブラウザで始めた作業を、VSCodeで続ける：
+
+```
+1. ブラウザでclaude.aiにアクセスし、コード設計を相談
+2. VSCodeを開き、セッションダイアログを表示
+3. 先ほどのセッションを検索・選択
+4. 「再開」をクリック
+5. VSCode内で実装作業を継続
+```
+
+### 複数環境での作業継続
+
+自宅のPCで開始したセッションを、会社のVSCodeで継続：
+
+```
+# 自宅のブラウザ
+claude.aiで新しいプロジェクトの計画を作成
+
+# 会社のVSCode
+1. OAuthでログイン
+2. セッションダイアログを開く
+3. 自宅で作成したセッションを選択
+4. 計画を基に実装開始
+```
+
+### セッションの検索とフィルタリング
+
+大量のセッションから目的のものを素早く見つける：
+
+```
+1. セッションダイアログの検索バーを使用
+2. プロジェクト名、日付、キーワードで絞り込み
+3. 並び替え（最新順、タイトル順など）を活用
+```
+
+### Teleport機能との連携
+
+ブラウザセッションをローカル環境に「テレポート」：
+
+```bash
+# ブラウザでセッションURLをコピー
+https://claude.ai/chat/xxx-xxx-xxx
+
+# VSCodeまたはCLIでテレポート
+claude --teleport https://claude.ai/chat/xxx-xxx-xxx
+```
 
 ## 注意点
 
-- この機能は Claude Code v2.1.16 で導入されました
-- 詳細なドキュメントは公式サイトを参照してください
+- **OAuthログインが必要**: この機能を利用するには、OAuthでログインしている必要があります。APIキー認証では利用できません
+- **ネットワーク接続**: リモートセッションの一覧取得と再開には、インターネット接続が必要です
+- **セッションの同期**: ローカルで行った変更は、自動的にクラウドに同期されます。ただし、オフライン時の変更は接続回復後に同期されます
+- **Pro/Maxプラン**: この機能はClaude ProまたはMaxプランのユーザーが利用できます
+- **セッション履歴の制限**: 表示されるセッション数には上限がある場合があります
 
 ## 関連情報
 
-- [Claude Code 公式ドキュメント](https://code.claude.com/docs/)
+- [Claude Code 公式ドキュメント - セッション管理](https://code.claude.com/docs/en/sessions)
+- [VSCode拡張機能ドキュメント](https://code.claude.com/docs/en/vscode)
+- [Teleport機能について](https://code.claude.com/docs/en/teleport)
 - [Changelog v2.1.16](https://github.com/anthropics/claude-code/releases/tag/v2.1.16)

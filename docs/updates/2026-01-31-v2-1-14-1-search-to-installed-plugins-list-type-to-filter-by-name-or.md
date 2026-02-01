@@ -1,12 +1,12 @@
 ---
-title: "追加 search to installed plugins list - type to filter by n..."
+title: "インストール済みプラグインリストに検索機能を追加"
 date: 2026-01-20
-tags: ['新機能']
+tags: ['新機能', 'プラグイン', 'UI改善']
 ---
 
 ## 原文（日本語に翻訳）
 
-追加 search to installed plugins list - type to filter by name or description
+インストール済みプラグインリストに検索機能を追加 - 名前または説明で絞り込むことができます
 
 ## 原文（英語）
 
@@ -14,26 +14,71 @@ Added search to installed plugins list - type to filter by name or description
 
 ## 概要
 
-Claude Code v2.1.14 でリリースされた機能です。
-
-（詳細は調査中）
+Claude Code v2.1.14では、インストール済みプラグインのリストに検索・フィルタリング機能が追加されました。プラグインの名前や説明文を入力するだけで、該当するプラグインを素早く見つけることができます。多数のプラグインをインストールしている場合でも、目的のプラグインを効率的に探せるようになります。
 
 ## 基本的な使い方
 
-（調査中）
+プラグインリストで検索機能を使用するには：
+
+1. Claude Code で `/mcp` コマンドまたはプラグイン管理画面を開く
+2. インストール済みプラグインのリスト画面に移動
+3. 検索ボックスにキーワードを入力（プラグイン名または説明の一部）
+4. リアルタイムで絞り込まれたプラグインが表示される
+
+検索は名前と説明の両方を対象とするため、機能や用途からプラグインを探すことも可能です。
 
 ## 実践例
 
-### 基本的な使用例
+### プラグイン名で検索
 
-（調査中）
+特定のプラグイン名がわかっている場合：
+
+```
+検索: "github"
+結果: GitHub関連のプラグイン（github-integration, github-actions など）が表示
+```
+
+### 機能説明で検索
+
+機能から探したい場合、説明文の一部で検索可能：
+
+```
+検索: "database"
+結果: 説明文に「database」を含むプラグインがフィルタリングされる
+（例: postgres-connector, mongodb-tools など）
+```
+
+### キーワードによる絞り込み
+
+複数のプラグインから素早く絞り込み：
+
+```
+# 20個のプラグインがインストールされている状態で
+検索: "test"
+結果: テスト関連プラグイン（jest-runner, pytest-helper など）のみ表示
+```
+
+### 部分一致検索
+
+プラグイン名を完全に覚えていなくても検索可能：
+
+```
+検索: "sql"
+結果: 名前や説明に「sql」を含むプラグインがすべて表示
+（mysql-client, postgresql-helper, sql-formatter など）
+```
 
 ## 注意点
 
-- この機能は Claude Code v2.1.14 で導入されました
-- 詳細なドキュメントは公式サイトを参照してください
+- **リアルタイムフィルタリング**：入力と同時に結果が更新されるため、タイピング中に候補が絞り込まれます
+- **大文字小文字を区別しない**：検索は通常、大文字小文字を区別しないため「GitHub」も「github」も同じ結果になります
+- **部分一致**：完全一致ではなく部分一致で検索されるため、柔軟に検索できます
+- **名前と説明の両方を検索**：プラグイン名だけでなく、説明文も検索対象となるため、機能ベースでの検索が可能です
+- **マーケットプレイス検索とは別**：この機能は「インストール済み」プラグインのフィルタリング機能です。新しいプラグインを探す場合はマーケットプレイスを使用してください
 
 ## 関連情報
 
-- [Claude Code 公式ドキュメント](https://code.claude.com/docs/)
+- [Claude Code プラグイン](https://code.claude.com/docs/en/plugins)
+- [Claude Code スキル（Skills）](https://code.claude.com/docs/en/skills)
+- [Claude Code MCP設定](https://code.claude.com/docs/en/mcp)
 - [Changelog v2.1.14](https://github.com/anthropics/claude-code/releases/tag/v2.1.14)

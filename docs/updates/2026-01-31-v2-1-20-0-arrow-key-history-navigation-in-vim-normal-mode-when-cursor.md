@@ -1,12 +1,12 @@
 ---
-title: "追加 arrow key history navigation in vim normal mode when c..."
+title: "Vimノーマルモードで矢印キーによる履歴ナビゲーションが可能に"
 date: 2026-01-27
-tags: ['新機能']
+tags: ['新機能', 'vim', 'キーボードショートカット']
 ---
 
 ## 原文（日本語に翻訳）
 
-追加 arrow key history navigation in vim normal mode when cursor cannot move further
+カーソルがこれ以上移動できない位置にある場合、Vimノーマルモードで矢印キーによる履歴ナビゲーションを追加
 
 ## 原文（英語）
 
@@ -14,26 +14,67 @@ Added arrow key history navigation in vim normal mode when cursor cannot move fu
 
 ## 概要
 
-Claude Code v2.1.20 でリリースされた機能です。
-
-（詳細は調査中）
+Claude Code v2.1.20で、Vimノーマルモード使用時の利便性が向上しました。カーソルが入力の先頭または末尾にあり、それ以上移動できない場合、矢印キー（上下）がコマンド履歴のナビゲーションに自動的に切り替わります。これにより、Vimモード使用中でも過去のコマンドに素早くアクセスできるようになりました。
 
 ## 基本的な使い方
 
-（調査中）
+1. Vimモードを有効化（`/vim`コマンドまたは`/config`で永続的に設定）
+2. ノーマルモード（`Esc`キーで移動）に入る
+3. `k`または`j`キーでカーソルを入力の先頭または末尾に移動
+4. カーソルが移動できない位置で矢印キー（上下）を押すとコマンド履歴をナビゲート
+
+```bash
+# Vimモードを有効化
+/vim
+
+# ノーマルモードで操作
+# - ggまたはkで先頭に移動後、↑キーで履歴を遡る
+# - Gまたはjで末尾に移動後、↓キーで履歴を進む
+```
 
 ## 実践例
 
-### 基本的な使用例
+### Vimユーザーの日常操作
 
-（調査中）
+Vimモードで作業中、以前実行したコマンドを再利用したい場合：
+
+1. `Esc`でノーマルモードに入る
+2. `gg`（または連続して`k`）で入力の先頭に移動
+3. 先頭でさらに`↑`キーを押すと、コマンド履歴を遡ることができる
+4. 目的のコマンドが表示されたら、そのまま編集するか実行
+
+### 長いコマンドの再編集
+
+複数行のプロンプトを入力した後、履歴から類似のコマンドを取得：
+
+```
+# ノーマルモードで入力の最初または最後に移動
+gg  # 先頭へ
+G   # 末尾へ
+
+# その位置で矢印キーを使用
+↑   # 前のコマンドへ
+↓   # 次のコマンドへ
+```
+
+### Vimとデフォルトモードのシームレスな切り替え
+
+Vimモードを使用していても、カーソルの位置に関わらず履歴ナビゲーションが可能になり、以下のような操作がスムーズに：
+
+- 素早いコマンドの再実行
+- 過去のプロンプトの微調整
+- 類似タスクの繰り返し実行
 
 ## 注意点
 
-- この機能は Claude Code v2.1.20 で導入されました
-- 詳細なドキュメントは公式サイトを参照してください
+- この機能はVimノーマルモードでのみ動作します（インサートモードでは通常の矢印キー動作）
+- カーソルが移動可能な位置にある場合、矢印キーは通常通りカーソル移動に使用されます
+- 履歴ナビゲーションは現在の作業ディレクトリごとに管理されています
+- Vimモードは`/vim`コマンドで切り替え、または`/config`で永続的に設定できます
 
 ## 関連情報
 
-- [Claude Code 公式ドキュメント](https://code.claude.com/docs/)
+- [Interactive Mode - Vim editor mode](https://code.claude.com/docs/en/interactive-mode#vim-editor-mode)
+- [Interactive Mode - Command history](https://code.claude.com/docs/en/interactive-mode#command-history)
+- [Keyboard shortcuts](https://code.claude.com/docs/en/interactive-mode#keyboard-shortcuts)
 - [Changelog v2.1.20](https://github.com/anthropics/claude-code/releases/tag/v2.1.20)

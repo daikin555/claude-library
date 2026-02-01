@@ -1,12 +1,12 @@
 ---
-title: "Merged slash commands and skills, simplifying the mental ..."
+title: "スラッシュコマンドとスキルの統合"
 date: 2026-01-09
-tags: ['コマンド']
+tags: ['新機能', 'コマンド', 'スキル']
 ---
 
 ## 原文（日本語に翻訳）
 
-Merged slash commands and skills, simplifying the mental model with no change in behavior
+スラッシュコマンドとスキルを統合し、挙動を変えることなくメンタルモデルを簡素化しました
 
 ## 原文（英語）
 
@@ -14,26 +14,58 @@ Merged slash commands and skills, simplifying the mental model with no change in
 
 ## 概要
 
-Claude Code v2.1.3 でリリースされた機能です。
-
-（詳細は調査中）
+Claude Code v2.1.3では、これまで別々の概念として扱われていたスラッシュコマンドとスキルが統合されました。この変更により、ユーザーが覚えるべき概念が減り、より直感的な操作が可能になります。既存の機能はそのまま動作するため、移行に伴う学習コストはありません。
 
 ## 基本的な使い方
 
-（調査中）
+統合後も、従来通り `/` から始まるコマンドを入力することで、各種機能にアクセスできます。
+
+```bash
+# 例：設定を開く
+/config
+
+# 例：ヘルプを表示
+/help
+
+# 例：診断を実行
+/doctor
+```
 
 ## 実践例
 
-### 基本的な使用例
+### 従来の使い方との違い
 
-（調査中）
+以前はスラッシュコマンドとスキルを区別する必要がありましたが、v2.1.3以降は両者が統合され、すべて「スキル」として扱われます。
+
+```bash
+# 従来：コマンドとスキルを意識する必要があった
+# - /config はコマンド
+# - カスタムスキルはスキル
+
+# v2.1.3以降：すべてスキルとして統一
+# - /config も /help もカスタムスキルもすべて同じ扱い
+```
+
+### カスタムスキルの利用
+
+統合により、ビルトインコマンドもカスタムスキルも同じ方法で呼び出せます。
+
+```bash
+# ビルトインスキル
+/commit
+
+# カスタムスキル
+/my-custom-skill
+```
 
 ## 注意点
 
-- この機能は Claude Code v2.1.3 で導入されました
-- 詳細なドキュメントは公式サイトを参照してください
+- この変更は内部的な統合であり、既存のコマンドの挙動は変わりません
+- カスタムスキルを作成している場合も、従来通り動作します
+- ドキュメントでは今後「スキル」という用語に統一される可能性があります
 
 ## 関連情報
 
-- [Claude Code 公式ドキュメント](https://code.claude.com/docs/)
+- [Claude Code 公式ドキュメント](https://claude.ai/code)
 - [Changelog v2.1.3](https://github.com/anthropics/claude-code/releases/tag/v2.1.3)
+- [スキルの作成方法](https://github.com/anthropics/claude-code)

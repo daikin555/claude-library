@@ -1,12 +1,12 @@
 ---
-title: "修正 permission bypass via shell line continuation that cou..."
+title: "シェル行継続によるパーミッション回避の脆弱性を修正"
 date: 2026-01-13
-tags: ['バグ修正', 'パーミッション', 'コマンド']
+tags: ['バグ修正', 'セキュリティ', 'パーミッション', 'コマンド']
 ---
 
 ## 原文（日本語に翻訳）
 
-修正 permission bypass via shell line continuation that could allow blocked commands to execute
+ブロックされたコマンドが実行可能になるシェル行継続によるパーミッション回避を修正
 
 ## 原文（英語）
 
@@ -14,26 +14,99 @@ Fixed permission bypass via shell line continuation that could allow blocked com
 
 ## 概要
 
-Claude Code v2.1.6 でリリースされた機能です。
-
-（詳細は調査中）
+Claude Code v2.1.6 では、重要なセキュリティ修正が行われました。シェルの行継続文字（バックスラッシュ `\`）を使用することで、本来ブロックされるべきコマンドが実行できてしまう脆弱性が修正されました。この修正により、パーミッション制御がより確実に機能し、意図しないコマンド実行を防ぐことができます。
 
 ## 基本的な使い方
 
-（調査中）
+この修正はバックグラウンドで自動的に適用されます。ユーザー側での特別な設定は不要です。
+
+Claude Code のコマンド実行時:
+1. コマンドがパーミッション設定に従ってチェックされる
+2. ブロックリストに含まれるコマンドは実行前に警告または拒否される
+3. 行継続を使用した回避も検出され、適切にブロックされる
 
 ## 実践例
 
-### 基本的な使用例
+### 修正前の問題（v2.1.5以前）
 
-（調査中）
+以前のバージョンでは、以下のような回避が可能でした:
+
+```bash
+# rmコマンドがブロックされている場合
+# 以下のように行継続を使うと実行できてしまっていた
+r\
+m -rf important_files/
+```
+
+この場合、`r` と `m` が別々の行として解釈され、パーミッションチェックを回避できていました。
+
+### 修正後の動作（v2.1.6以降）
+
+v2.1.6 では、行継続を含むコマンドも正しく検出されます:
+
+```bash
+# 同じコマンドを試みても
+r\
+m -rf important_files/
+
+# エラーメッセージが表示される
+Error: Command 'rm' is blocked by permission settings
+```
+
+### パーミッション設定の確認
+
+どのコマンドがブロックされているか確認:
+
+```bash
+# 設定画面を開く
+/config
+
+# "permission" または "blocked" で検索
+# blockedCommands リストを確認
+```
+
+### セキュアなコマンド実行
+
+安全なコマンド実行のベストプラクティス:
+
+1. **危険なコマンドの実行前に確認**
+   - `rm -rf`, `chmod 777`, `sudo` などは慎重に使用
+
+2. **パーミッション設定のカスタマイズ**
+   ```bash
+   /config
+   # blockedCommands に危険なコマンドを追加
+   ```
+
+3. **実行前にコマンドをレビュー**
+   - Claude が提案するコマンドを実行前に確認
+   - 不明なコマンドは実行前に調査
+
+### 行継続の正しい使用方法
+
+行継続自体は正当な用途で使用できます:
+
+```bash
+# 長いコマンドを複数行に分割（正常な使用例）
+docker run \
+  --name my-container \
+  --volume /data:/data \
+  my-image:latest
+
+# 問題なく実行される（ブロックされたコマンドでない限り）
+```
 
 ## 注意点
 
-- この機能は Claude Code v2.1.6 で導入されました
-- 詳細なドキュメントは公式サイトを参照してください
+- この修正は Claude Code v2.1.6 で導入されました
+- セキュリティ上の重要な修正のため、v2.1.6 以降へのアップデートを強く推奨します
+- 行継続を使用した正当なコマンドは引き続き正常に動作します
+- パーミッション設定をカスタマイズしている場合、この修正により以前は実行できたコマンドがブロックされる可能性があります
+- この修正は、意図的な回避だけでなく、偶発的なパーミッション回避も防ぎます
+- Claude Code のコマンド実行には常に注意を払い、実行内容を理解してから承認してください
 
 ## 関連情報
 
-- [Claude Code 公式ドキュメント](https://code.claude.com/docs/)
 - [Changelog v2.1.6](https://github.com/anthropics/claude-code/releases/tag/v2.1.6)
+- [Claude Code セキュリティ設定](https://code.claude.com/docs/security)
+- [Claude Code パーミッション設定](https://code.claude.com/docs/configuration#permissions)

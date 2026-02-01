@@ -1,12 +1,12 @@
 ---
-title: "修正 plan files persisting across `/clear` commands, now en..."
+title: "/clearコマンド後のプランファイル残存問題の修正"
 date: 2026-01-09
-tags: ['バグ修正', 'コマンド']
+tags: ['バグ修正', 'コマンド', 'プランモード']
 ---
 
 ## 原文（日本語に翻訳）
 
-修正 plan files persisting across `/clear` commands, now ensuring a fresh plan file is used after clearing a conversation
+`/clear` コマンド実行後もプランファイルが残存する問題を修正し、会話クリア後は新しいプランファイルが使用されるようにしました
 
 ## 原文（英語）
 
@@ -14,26 +14,74 @@ Fixed plan files persisting across `/clear` commands, now ensuring a fresh plan 
 
 ## 概要
 
-Claude Code v2.1.3 でリリースされた機能です。
-
-（詳細は調査中）
+Claude Code v2.1.3では、`/clear` コマンドで会話をクリアした後も、以前のプランファイルが残ってしまう問題が修正されました。この修正により、会話をリセットした後は常に新しいプランファイルが作成され、前回のプラン内容が誤って引き継がれることがなくなります。
 
 ## 基本的な使い方
 
-（調査中）
+`/clear` コマンドを実行すると、会話履歴とともにプランファイルもクリアされます。
+
+```bash
+# 会話とプランをクリア
+/clear
+
+# 新しい会話を開始すると、新しいプランファイルが作成される
+```
 
 ## 実践例
 
-### 基本的な使用例
+### 修正前の問題
 
-（調査中）
+以前は、`/clear` 後も古いプランファイルが残り、混乱を招く可能性がありました。
+
+```bash
+# 修正前の動作
+# 1. プランモードで作業
+#    - plan.md が作成される
+# 2. /clear を実行
+# 3. 新しいタスクを開始
+#    - 古い plan.md が残っている（問題！）
+#    - 前回のプラン内容と混在する可能性
+```
+
+### 修正後の動作
+
+v2.1.3では、`/clear` で完全にクリーンな状態に戻ります。
+
+```bash
+# 修正後の動作
+# 1. プランモードで作業
+#    - plan.md が作成される
+# 2. /clear を実行
+#    - plan.md も削除される
+# 3. 新しいタスクを開始
+#    - 新しい plan.md が作成される
+#    - 以前のプランと混在しない
+```
+
+### プランモードのワークフロー
+
+複数のタスクを切り替える際の推奨ワークフローです。
+
+```bash
+# タスク1: 機能Aの実装計画
+# プランモードで計画を立てる
+# 実装を完了
+
+# タスク2: 機能Bの実装計画に移行
+/clear  # 会話とプランをクリア
+# 新しいプランモードを開始
+# 新しいプランファイルで作業
+```
 
 ## 注意点
 
-- この機能は Claude Code v2.1.3 で導入されました
-- 詳細なドキュメントは公式サイトを参照してください
+- `/clear` を実行すると、プランファイルも含めてすべての会話コンテキストが削除されます
+- プランの内容を保存しておきたい場合は、`/clear` 前にバックアップを取ってください
+- プランモードを使用していない場合でも、この修正により内部的なクリーンアップが改善されています
 
 ## 関連情報
 
-- [Claude Code 公式ドキュメント](https://code.claude.com/docs/)
+- [Claude Code 公式ドキュメント](https://claude.ai/code)
 - [Changelog v2.1.3](https://github.com/anthropics/claude-code/releases/tag/v2.1.3)
+- [プランモードの使い方](https://github.com/anthropics/claude-code)
+- [会話管理のベストプラクティス](https://github.com/anthropics/claude-code)

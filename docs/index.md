@@ -64,7 +64,7 @@ import ArticleCard from './.vitepress/components/ArticleCard.vue'
   }
 
   .updates-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   }
 }
 
@@ -74,7 +74,7 @@ import ArticleCard from './.vitepress/components/ArticleCard.vue'
   }
 
   .updates-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
   }
 }
 </style>

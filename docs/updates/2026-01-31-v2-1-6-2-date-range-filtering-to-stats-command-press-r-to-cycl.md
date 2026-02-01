@@ -1,12 +1,12 @@
 ---
-title: "追加 date range filtering to `/stats` command - press `r` t..."
+title: "/stats コマンドに日付範囲フィルタリング機能を追加"
 date: 2026-01-13
-tags: ['新機能', 'コマンド']
+tags: ['新機能', 'コマンド', '統計', 'フィルタ']
 ---
 
 ## 原文（日本語に翻訳）
 
-追加 date range filtering to `/stats` command - press `r` to cycle between Last 7 days, Last 30 days, and All time
+`/stats` コマンドに日付範囲フィルタリング機能を追加 - `r` キーを押すことで「過去7日間」「過去30日間」「全期間」を切り替え可能
 
 ## 原文（英語）
 
@@ -14,26 +14,62 @@ Added date range filtering to `/stats` command - press `r` to cycle between Last
 
 ## 概要
 
-Claude Code v2.1.6 でリリースされた機能です。
-
-（詳細は調査中）
+Claude Code v2.1.6 では、`/stats` コマンドに日付範囲でフィルタリングする機能が追加されました。`r` キーを押すだけで、統計の表示期間を「過去7日間」「過去30日間」「全期間」の間で簡単に切り替えることができ、期間別の使用状況を素早く確認できます。
 
 ## 基本的な使い方
 
-（調査中）
+```bash
+# 統計画面を開く
+/stats
+
+# 統計画面で 'r' キーを押して期間を切り替え
+# Last 7 days → Last 30 days → All time → Last 7 days ...
+```
 
 ## 実践例
 
-### 基本的な使用例
+### 週次の使用状況を確認
 
-（調査中）
+過去1週間の使用傾向を把握したい場合：
+
+1. `/stats` を実行
+2. デフォルトまたは `r` キーを押して "Last 7 days" を選択
+3. 直近の使用状況（メッセージ数、トークン使用量など）を確認
+
+### 月次レポートの作成
+
+過去1ヶ月の使用状況をレビューする場合：
+
+1. `/stats` を実行
+2. `r` キーを1回または2回押して "Last 30 days" を選択
+3. 月間の統計データを確認
+4. 使用パターンや傾向を分析
+
+### 全期間の累積データを確認
+
+Claude Codeを使い始めてからの全ての統計を見たい場合：
+
+1. `/stats` を実行
+2. `r` キーを押して "All time" を選択
+3. 累積の統計情報を確認
+4. 長期的な使用傾向を把握
+
+### 期間比較による分析
+
+異なる期間を比較して使用パターンを分析：
+
+1. `/stats` で "Last 7 days" を確認してメモ
+2. `r` キーで "Last 30 days" に切り替えて比較
+3. 最近の使用量が増えているか減っているかを判断
 
 ## 注意点
 
 - この機能は Claude Code v2.1.6 で導入されました
-- 詳細なドキュメントは公式サイトを参照してください
+- `r` キーによる切り替えは、統計画面が開いている間のみ有効です
+- フィルタリングは表示のみに影響し、データ自体は全期間保存されています
+- 統計には、メッセージ数、トークン使用量、コマンド実行回数などが含まれます
 
 ## 関連情報
 
-- [Claude Code 公式ドキュメント](https://code.claude.com/docs/)
 - [Changelog v2.1.6](https://github.com/anthropics/claude-code/releases/tag/v2.1.6)
+- [Claude Code リリースノート](https://github.com/anthropics/claude-code/releases)
