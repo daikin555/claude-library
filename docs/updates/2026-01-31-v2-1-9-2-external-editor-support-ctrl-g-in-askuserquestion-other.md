@@ -1,5 +1,5 @@
 ---
-title: "追加 external editor support (Ctrl+G) in AskUserQuestion "O..."
+title: '追加 external editor support (Ctrl+G) in AskUserQuestion "O...'
 date: 2026-01-16
 tags: ['新機能']
 ---

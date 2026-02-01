@@ -58,6 +58,8 @@ function getTagStyle(tag: string) {
   color: inherit;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   height: 100%;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .article-card:hover {
@@ -72,12 +74,15 @@ function getTagStyle(tag: string) {
   font-weight: 600;
   color: var(--vp-c-text-1);
   line-height: 1.4;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .date {
   margin: 0 0 12px 0;
   font-size: 14px;
   color: var(--vp-c-text-2);
+  word-break: break-word;
 }
 
 .excerpt {
@@ -86,6 +91,8 @@ function getTagStyle(tag: string) {
   line-height: 1.6;
   color: var(--vp-c-text-2);
   flex-grow: 1;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .tags {
@@ -102,6 +109,8 @@ function getTagStyle(tag: string) {
   border-radius: 6px;
   border: 1px solid;
   font-weight: 500;
+  word-break: break-word;
+  max-width: 100%;
 }
 
 .read-more {

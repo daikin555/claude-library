@@ -1,5 +1,5 @@
 ---
-title: "修正 agent list displaying "Sonnet (default)" instead of "I..."
+title: '修正 agent list displaying "Sonnet (default)" instead of "I...'
 date: 2026-01-23
 tags: ['バグ修正']
 ---

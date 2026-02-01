@@ -1,5 +1,5 @@
 ---
-title: "修正 race condition where LSP tool could return "no server ..."
+title: '修正 race condition where LSP tool could return "no server ...'
 date: 2026-01-07
 tags: ['バグ修正']
 ---

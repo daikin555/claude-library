@@ -1,5 +1,5 @@
 ---
-title: "修正 large pasted images failing with "Image was too large"..."
+title: '修正 large pasted images failing with "Image was too large"...'
 date: 2026-01-07
 tags: ['バグ修正']
 ---

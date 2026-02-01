@@ -1,7 +1,7 @@
 ---
-title: "非推奨化 Windows managed settings path `C:\ProgramData\Claude..."
-date: 2026-01-09
-tags: ['Windows']
+title: '非推奨化 Windows managed settings path C:\ProgramData\ClaudeCode'
+date: 2026-01-31
+tags: ['非推奨化', 'Windows', '設定']
 ---
 
 ## 原文（日本語に翻訳）

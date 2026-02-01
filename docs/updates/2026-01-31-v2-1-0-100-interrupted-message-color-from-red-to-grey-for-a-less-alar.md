@@ -1,7 +1,7 @@
 ---
-title: "変更 "Interrupted" message color from red to grey for a les..."
-date: 2026-01-07
-tags: ['変更']
+title: '変更 "Interrupted" メッセージの色を赤からグレーに変更'
+date: 2026-01-31
+tags: ['変更', 'UI', '色', 'UX']
 ---
 
 ## 原文（日本語に翻訳）
