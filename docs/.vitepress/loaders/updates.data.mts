@@ -5,6 +5,15 @@ export default createContentLoader('updates/*.md', {
     return rawData
       .filter(page => !page.url.endsWith('/updates/'))
       .sort((a, b) => {
+        // バージョン番号でソート（降順）
+        const versionA = extractVersion(a.url)
+        const versionB = extractVersion(b.url)
+
+        if (versionA && versionB) {
+          return compareVersions(versionB, versionA)
+        }
+
+        // バージョン番号がない場合は日付でソート
         return +new Date(b.frontmatter.date) - +new Date(a.frontmatter.date)
       })
       .map(page => ({
@@ -17,6 +26,19 @@ export default createContentLoader('updates/*.md', {
       }))
   }
 })
+
+function compareVersions(a: string, b: string): number {
+  const partsA = a.split('.').map(Number)
+  const partsB = b.split('.').map(Number)
+
+  for (let i = 0; i < 3; i++) {
+    if (partsA[i] !== partsB[i]) {
+      return partsA[i] - partsB[i]
+    }
+  }
+
+  return 0
+}
 
 function extractVersion(url: string): string | null {
   // URLから最後のセグメントを取得 (/updates/2.1.30-feature.html -> 2.1.30-feature.html)
