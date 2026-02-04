@@ -31,9 +31,13 @@ function compareVersions(a: string, b: string): number {
   const partsA = a.split('.').map(Number)
   const partsB = b.split('.').map(Number)
 
-  for (let i = 0; i < 3; i++) {
-    if (partsA[i] !== partsB[i]) {
-      return partsA[i] - partsB[i]
+  // 最大の長さまで比較
+  const maxLength = Math.max(partsA.length, partsB.length)
+  for (let i = 0; i < maxLength; i++) {
+    const partA = partsA[i] || 0
+    const partB = partsB[i] || 0
+    if (partA !== partB) {
+      return partA - partB
     }
   }
 
@@ -45,9 +49,20 @@ function extractVersion(url: string): string | null {
   const filename = url.split('/').pop()
   if (!filename) return null
 
-  // ファイル名からバージョン番号を抽出 (2.1.30-feature.html -> 2.1.30)
-  const match = filename.match(/^(\d+\.\d+\.\d+)/)
-  return match ? match[1] : null
+  // ファイル名からバージョン番号を抽出
+  // パターン1: 2.1.30-feature.html -> 2.1.30
+  let match = filename.match(/^(\d+\.\d+\.\d+)/)
+  if (match) return match[1]
+
+  // パターン2: 2026-01-31-v2-1-10-0-feature.html -> 2.1.10.0
+  match = filename.match(/v(\d+)-(\d+)-(\d+)-(\d+)/)
+  if (match) return `${match[1]}.${match[2]}.${match[3]}.${match[4]}`
+
+  // パターン3: 2026-01-31-v2-1-10-feature.html -> 2.1.10
+  match = filename.match(/v(\d+)-(\d+)-(\d+)/)
+  if (match) return `${match[1]}.${match[2]}.${match[3]}`
+
+  return null
 }
 
 function formatDate(date: string | Date): string {
