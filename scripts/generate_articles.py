@@ -7,8 +7,9 @@ import re
 import os
 from pathlib import Path
 from typing import Dict, List, Tuple
+from datetime import datetime
 
-# リリース日マッピング
+# リリース日マッピング（既知のバージョンのみ）
 RELEASE_DATES = {
     "2.1.0": "2026-01-07",
     "2.1.2": "2026-01-09",
@@ -33,7 +34,24 @@ RELEASE_DATES = {
     "2.1.23": "2026-01-29",
     "2.1.25": "2026-01-29",
     "2.1.27": "2026-01-30",
+    "2.1.29": "2026-02-03",
+    "2.1.30": "2026-02-03",
+    "2.1.31": "2026-02-04",
 }
+
+
+def get_release_date(version: str) -> str:
+    """
+    バージョンのリリース日を取得する。
+    マッピングにない場合は今日の日付を返す。
+    """
+    if version in RELEASE_DATES:
+        return RELEASE_DATES[version]
+    else:
+        # マッピングにない場合は今日の日付を使用
+        today = datetime.now().strftime("%Y-%m-%d")
+        print(f"Warning: No release date for version {version}, using today's date: {today}")
+        return today
 
 
 def parse_changelog(changelog_path: str) -> List[Tuple[str, str, int, str]]:
@@ -72,11 +90,9 @@ def parse_changelog(changelog_path: str) -> List[Tuple[str, str, int, str]]:
                 entry_match = re.match(r'^- (.+)$', line)
                 if entry_match:
                     entry_text = entry_match.group(1)
-                    release_date = RELEASE_DATES.get(current_version)
-
-                    if release_date:
-                        entries.append((current_version, release_date, entry_index, entry_text))
-                        entry_index += 1
+                    release_date = get_release_date(current_version)
+                    entries.append((current_version, release_date, entry_index, entry_text))
+                    entry_index += 1
 
     return entries
 

@@ -9,6 +9,7 @@ on:
 permissions:
   contents: write
   id-token: write
+  issues: write
 
 jobs:
   check-changelog:
@@ -107,3 +108,35 @@ jobs:
           git push
         env:
           PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+
+      - name: Check coverage
+        id: coverage
+        continue-on-error: true
+        run: |
+          if ! bash scripts/check-coverage.sh > coverage-report.txt 2>&1; then
+            echo "coverage_failed=true" >> "$GITHUB_OUTPUT"
+            cat coverage-report.txt
+          else
+            echo "coverage_failed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create issue for missing articles
+        if: steps.coverage.outputs.coverage_failed == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('coverage-report.txt', 'utf8');
+
+            // Extract summary information
+            const missingMatch = report.match(/Total missing articles: (\d+)/);
+            const totalMissing = missingMatch ? missingMatch[1] : 'unknown';
+
+            // Create issue
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Missing ${totalMissing} guide articles for changelog items`,
+              body: `## Coverage Check Failed\n\nThe automated coverage check detected missing guide articles.\n\n### Report\n\n\`\`\`\n${report}\n\`\`\`\n\n### Action Required\n\nPlease create guide articles for the missing changelog items following the guidelines in CLAUDE.md.\n\n### Commands\n\n\`\`\`bash\n# Check coverage locally\nbash scripts/check-coverage.sh\n\n# Generate articles\npython scripts/generate_articles.py\n\`\`\`\n\n---\n_This issue was automatically created by the Monitor Changelog workflow._`,
+              labels: ['documentation', 'automated']
+            });
