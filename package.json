@@ -9,6 +9,7 @@
     "docs:preview": "vitepress preview docs"
   },
   "devDependencies": {
+    "puppeteer": "^24.36.1",
     "vitepress": "^1.6.3"
   }
 }
