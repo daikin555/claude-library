@@ -54,9 +54,9 @@ function extractVersion(url: string): string | null {
   let match = filename.match(/^(\d+\.\d+\.\d+)/)
   if (match) return match[1]
 
-  // パターン2: 2026-01-31-v2-1-10-0-feature.html -> 2.1.10.0
+  // パターン2: 2026-01-31-v2-1-10-0-feature.html -> 2.1.10
   match = filename.match(/v(\d+)-(\d+)-(\d+)-(\d+)/)
-  if (match) return `${match[1]}.${match[2]}.${match[3]}.${match[4]}`
+  if (match) return `${match[1]}.${match[2]}.${match[3]}`
 
   // パターン3: 2026-01-31-v2-1-10-feature.html -> 2.1.10
   match = filename.match(/v(\d+)-(\d+)-(\d+)/)
