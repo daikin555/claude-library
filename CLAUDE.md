@@ -9,7 +9,8 @@ Claude Codeのchangelogを監視し、新機能の活用ガイドを自動生成
 - すべて日本語で記述すること
 
 ### ファイル命名規則
-- `docs/updates/YYYY-MM-DD-feature-name.md` 形式
+- `docs/updates/VERSION-feature-name.md` 形式（例: `2.1.30-debug-command.md`）
+- VERSIONはchangelogに記載されているバージョン番号（セマンティックバージョニング形式）
 - feature-nameは英語のkebab-case
 
 ### Frontmatter形式

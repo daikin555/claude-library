@@ -61,29 +61,29 @@ jobs:
           prompt: |
             data/new-entries.md ファイルを読み取り、Claude Codeの新しいchangelogエントリを分析して活用ガイド記事を生成してください。
 
-            ## 重要な日付情報:
-            - **ファイル名に使用する日付**: 環境変数 $TODAY_DATE の値を使用してください（今日の日付: $TODAY_DATE）
-            - **frontmatter dateフィールド**: 環境変数 $TODAY_DATE の値を使用してください
-              - ⚠️ 重要: バージョン番号（例: 2.1.29, v2.1.0など）を日付として使用しないでください
-              - 日付は必ず YYYY-MM-DD 形式（例: 2026-02-01）である必要があります
-              - changelogにリリース日付が明記されていても、混乱を避けるため常に $TODAY_DATE を使用してください
+            ## 重要な情報:
+            - **今日の日付**: 環境変数 $TODAY_DATE の値（今日の日付: $TODAY_DATE）
+            - **changelogからバージョン番号を抽出**: changelogの冒頭に記載されているバージョン番号（例: `## 2.1.30`）を特定してください
+            - **ファイル名にはバージョン番号を使用**: `VERSION-feature-name.md` 形式（例: `2.1.30-debug-command.md`）
+            - **frontmatter dateフィールドには今日の日付を使用**: YYYY-MM-DD 形式（例: 2026-02-01）
 
             ## 作業指示:
-            1. data/new-entries.md を読み取り、新しいエントリの内容を分析してください
+            1. data/new-entries.md を読み取り、changelogのバージョン番号を特定してください
+               - changelogの先頭に `## X.Y.Z` の形式で記載されています
             2. 各主要な変更・新機能について、`docs/updates/` 以下にMarkdownガイド記事を作成してください
-            3. **ファイル名**: `$TODAY_DATE-feature-name.md` 形式にしてください
-               - 環境変数 $TODAY_DATE をそのまま使用すること（dateコマンドを実行しないこと）
-               - 例: $TODAY_DATE が "2026-01-31" なら、"2026-01-31-new-feature.md" のように命名
+            3. **ファイル名**: `VERSION-feature-name.md` 形式にしてください
+               - VERSION: changelogから抽出したバージョン番号（例: 2.1.30）
+               - feature-name: 機能を表すkebab-case（例: debug-command）
+               - 例: "2.1.30-debug-command.md"
             4. 記事は以下のfrontmatter形式で始めてください:
                ```yaml
                ---
                title: "記事タイトル"
-               date: $TODAY_DATE  # ← 環境変数をそのまま使用
+               date: $TODAY_DATE  # ← 環境変数の日付を使用（YYYY-MM-DD形式）
                tags: [関連タグ]
                ---
                ```
-            5. frontmatterの作成後、dateフィールドが正しいYYYY-MM-DD形式（例: 2026-02-01）になっているか必ず確認してください
-               - バージョン番号（例: 2.1.29）になっている場合は誤りです
+            5. frontmatterの作成後、dateフィールドが正しいYYYY-MM-DD形式になっているか確認してください
             6. 記事の内容には以下を含めてください:
                - 機能の概要（2-3文）
                - 具体的な使い方・コマンド例
