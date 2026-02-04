@@ -11,12 +11,22 @@ export default createContentLoader('updates/*.md', {
         ...page,
         frontmatter: {
           ...page.frontmatter,
-          date: formatDate(page.frontmatter.date)
+          date: extractVersion(page.url) || formatDate(page.frontmatter.date)
         },
         excerpt: extractExcerpt(page.html)
       }))
   }
 })
+
+function extractVersion(url: string): string | null {
+  // URLから最後のセグメントを取得 (/updates/2.1.30-feature.html -> 2.1.30-feature.html)
+  const filename = url.split('/').pop()
+  if (!filename) return null
+
+  // ファイル名からバージョン番号を抽出 (2.1.30-feature.html -> 2.1.30)
+  const match = filename.match(/^(\d+\.\d+\.\d+)/)
+  return match ? match[1] : null
+}
 
 function formatDate(date: string | Date): string {
   if (typeof date === 'string') {
