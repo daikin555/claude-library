@@ -43,7 +43,7 @@ function getUpdatesSidebar() {
 }
 
 export default defineConfig({
-  base: '/claude-library/',
+  base: '/',
   title: 'Claude Code ガイド',
   description: 'Claude Codeの新機能・アップデートガイド',
   lang: 'ja',
