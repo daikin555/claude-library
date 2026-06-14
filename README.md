@@ -212,6 +212,26 @@ changelogの該当項目を英語で記載
 - `CLAUDE_CODE_OAUTH_TOKEN`: Claude Code Action用のOAuthトークン（Secretsに設定）
 - `PAT_TOKEN`: GitHub Personal Access Token（リポジトリへのpush権限が必要）
 
+### 課金とサブスクリプションについて（重要）
+
+**2026-06-15以降、Anthropicのサブスクは2つの独立した課金プールに分割されました。**
+
+| プール | 対象 | このプロジェクト |
+| --- | --- | --- |
+| Pool 1（インタラクティブ＝従来のサブスク枠） | Web/デスクトップ/モバイルのチャット、ターミナル/IDEで人が対話的に使うClaude Code | ローカルで手動実行する場合 |
+| Pool 2（Agent SDK クレジットプール） | `claude -p`（ヘッドレス）、Agent SDK、**GitHub Actions** | **本リポジトリの自動ワークフロー** |
+
+GitHub Actions経由のClaude Code実行は、OAuthトークンを使っていてもPool 2（Agent SDKクレジットプール）から消費されます。これは**コードの書き方では回避できないAnthropic側のポリシー**です（`claude -p` をローカルcronに移しても同じくPool 2課金になります）。
+
+**ただし追加の出費は発生しない構成になっています：**
+
+- Pool 2にはサブスク額相当の月次クレジットが付与されます（Max 5x: $100相当/月、Max 20x: $200相当/月）。本システムは「1日1回、changelog差分がある時だけ記事生成」という軽量ワークロードのため、このクレジット枠に十分収まる見込みです。
+- リポジトリSecretsに **`ANTHROPIC_API_KEY` を設定していない**ため、クレジット枠を使い切ってもAPI従量課金へフォールバックせず、その月のActions実行が停止するだけです（＝予期せぬ追加課金ゼロ）。
+
+> ⚠️ **`ANTHROPIC_API_KEY` をSecretsに追加しないこと。** 追加するとクレジット枠超過時にAPI従量課金が発生します。認証は `CLAUDE_CODE_OAUTH_TOKEN`（サブスク）のみで行います。
+
+厳密にPool 1（従来のサブスク標準枠）だけで運用したい場合は、自動化を諦め、差分検出のみをローカルcronで行い、記事生成は自分のターミナル/IDEでClaude Codeを対話的に起動して実行する必要があります。
+
 ### スケジュール
 
 デフォルトでは毎日22:00 UTC（JST 07:00）に実行されます。
