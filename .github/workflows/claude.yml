@@ -50,6 +50,10 @@ jobs:
         id: claude
         uses: anthropics/claude-code-action@v1
         with:
+          # 課金ガード: OAuthトークン（サブスク認証）のみを使用する。
+          # 2026-06-15以降、GitHub Actions経由の実行は「Agent SDK クレジットプール」から消費される。
+          # anthropic_api_key は意図的に設定しない（設定するとクレジット枠超過時にAPI従量課金へ
+          # フォールバックするため）。リポジトリSecretsに ANTHROPIC_API_KEY を追加しないこと。
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
 
           # This is an optional setting that allows Claude to read CI results on PRs

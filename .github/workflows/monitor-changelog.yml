@@ -93,6 +93,12 @@ jobs:
             7. すべて日本語で記述してください
             8. 変更をコミットしてください
 
+          # 課金ガード: OAuthトークン（サブスク認証）のみを使用する。
+          # 2026-06-15以降、GitHub Actions経由のClaude Code実行はサブスク標準枠ではなく
+          # 「Agent SDK クレジットプール」（Max 5xで$100相当/月）から消費される。
+          # anthropic_api_key は意図的に設定しない。設定するとクレジット枠を超過した際に
+          # API従量課金へフォールバックしてしまうため。枠を超えたら実行を停止させる方針
+          # （= 予期せぬ追加課金ゼロ）。リポジトリSecretsに ANTHROPIC_API_KEY を追加しないこと。
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           claude_args: "--allowedTools Edit,Write,\"Bash(git commit:*)\",\"Bash(git add:*)\",Read,Glob,WebSearch,WebFetch"
 
