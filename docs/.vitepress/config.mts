@@ -44,6 +44,10 @@ function getUpdatesSidebar() {
 
 export default defineConfig({
   base: '/',
+  // 自動生成記事に相対リンクの綴り間違いが混入しても、1本のdead linkで
+  // サイト全体のデプロイが落ちないようにする（過去に /en/settings の
+  // dead linkで2週間デプロイが停止した事例があるため）。
+  ignoreDeadLinks: true,
   title: 'Claude Code ガイド',
   description: 'Claude Codeの新機能・アップデートガイド',
   lang: 'ja',
