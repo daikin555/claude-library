@@ -1,30 +1,53 @@
-## 2.1.206
+## 2.1.209
 
-- Added directory path suggestions to `/cd`, matching `/add-dir` behavior
-- Added a `/doctor` check that proposes trimming checked-in `CLAUDE.md` files by cutting content Claude could derive from the codebase
-- `/commit-push-pr` now auto-allows `git push` to the repo's configured push remote (`remote.pushDefault`, or the sole remote when only one is configured) in addition to `origin`
-- Gateway: `/login` now supports Anthropic-operated public gateway endpoints
-- `EnterWorktree` now asks for confirmation before entering a git worktree outside the project's `.claude/worktrees/` directory
-- Background agents now upgrade to a new version in the background right after a Claude Code update, instead of paying a slow stale-session upgrade when you attach
-- Fixed an expired login failing every model with a misleading "There's an issue with the selected model" error instead of prompting to run `/login`
-- Fixed `claude --resume` and `--continue` not responding to keyboard input on startup
-- Fixed MCP servers configured via `--mcp-config` or `.mcp.json` ignoring a per-server `request_timeout_ms`, which caused long-running MCP tool calls to time out at the 60s default in fresh sessions
-- Fixed `CLAUDE_CODE_EXTRA_BODY` being silently ignored by `claude agents` / `--bg` background workers; the shell-exported override now follows the dispatching session
-- Fixed OAuth MCP servers requiring manual re-authentication after a single failed token refresh
-- Fixed `--permission-prompt-tool` pointing at an MCP server crashing with "MCP tool not found" on cold start before the server finishes connecting
-- Fixed `/model` picker rows printing a price for a different model than the row named, and stopped quoting first-party list prices on providers that don't bill them
-- Fixed server-provided model rows being misplaced in the `/model` picker when an entitlement or allowlist restriction drops the row they were positioned against
-- Fixed desktop sessions getting stuck showing "running" after a slash command was sent mid-turn
-- Fixed keyboard input being ignored in the agents view when a setup prompt appeared before a bare `claude --resume` on Windows
-- Fixed `claude rm` leaving the removed job in the daemon roster, causing the row to reappear in `claude agents`
-- Fixed `/remote-control` showing "Unknown command" when logged out — it now explains how to sign in
-- Fixed left arrow not stepping back out of a phase or agent in the workflow detail view
-- Fixed `/status` listing the same broken-install warning twice
-- Fixed false "disused plugin" tips and skewed disuse telemetry for LSP plugins
-- Fixed `/doctor`'s update check to compare Homebrew installs against their cask's channel instead of the settings channel
-- Fixed the fullscreen jump-to-bottom pill suggesting Ctrl+End on macOS, not showing rebound chords, and wrapping over the transcript
-- Bedrock: fixed a multi-minute startup hang when using an `awsCredentialExport` helper on networks with restricted egress
-- Improved `/code-review` findings quality on claude-opus-4-8 across all effort levels
-- Improved agents view: status column now uses full terminal width instead of truncating at 64 characters
-- Changed agents view: Ctrl+X now permanently removes a completed session, and sessions no longer render twice; deleted background jobs stay deleted
+- Fixed /model and other dialogs being blocked in `claude agents` background sessions (reverts an overly broad guard)
 
+## 2.1.208
+
+- Added screen reader mode: opt-in plain-text rendering for screen reader users. Run `claude --ax-screen-reader`, set CLAUDE_AX_SCREEN_READER=1, or add "axScreenReader": true to settings.
+- Added `vimInsertModeRemaps` setting: map two-key insert-mode sequences like `jj` to Escape in vim mode
+- Added `CLAUDE_CODE_PROCESS_WRAPPER`: agent view and the background service now honor a corporate launcher by running every Claude Code self-spawn through a required wrapper executable
+- Added mouse-click support for multi-select menus and "Other" input rows in fullscreen mode
+- Fixed fast mode staying off after switching back to a model that supports it — it now restores automatically when enabled in settings
+- Fixed replies typed to a background agent being lost when delivery fails — the text is now saved and delivered when the session restarts
+- Fixed background-session attach failing permanently ("Couldn't start the background daemon") after an update replaced the binary a running `claude agents` process was launched from
+- Fixed the context window (and auto-compact indicator) briefly resetting to 200k after the CLI auto-updates, causing a false "100% context used" when resuming long-context sessions
+- Fixed supervised and background sessions crashing when a server closed an HTTP/2 connection with a GOAWAY while requests were in flight
+- Fixed truncated stream-json/JSON output and missing result message when piping large responses from `claude -p`
+- Fixed `CLAUDE_CODE_MAX_OUTPUT_TOKENS` and similar env vars silently using the mantissa of scientific-notation values (`1e6` became `1`)
+- Fixed very large markdown tables stalling rendering or using excessive memory; tables over 200 rows show the first 200 with a "… N more rows" notice
+- Fixed the Edit tool failing on files modified after reading when the target text still matches uniquely
+- Fixed Read reporting empty files as "shorter than offset", Grep silently returning "No files found" for invalid regex patterns, Grep count mode under-reporting totals when paginated, and Glob crashing with an unclear error when the pattern, path, or working directory contained a null byte
+- Fixed `apiKeyHelper` script failures being hidden behind a generic 401 after ~10 silent retries; the script's own error is now shown within 3 attempts
+- Fixed Bedrock streaming requests failing with a misleading "Truncated event message received" when a gateway transforms the response — the error now names the content-type and points at the proxy
+- Fixed `/upgrade` showing a login flow instead of the upgrade URL when the browser fails to open
+- Fixed stream-json input killing the session on blank CRLF or whitespace-only lines from Windows-style SDK hosts
+- Fixed headless stream-json sessions hanging permanently when a `control_request` carried a non-string `set_model` payload; the CLI now answers with an error response
+- Fixed repeated "No completion record was found" notices on session resume — orphaned background tasks now collapse into a single summary
+- Fixed Remote Control clients attaching to a terminal-hosted session not seeing background agents and workflow progress until a task started or stopped
+- Fixed the Agent tool launching with no tools when a subagent's `tools` list resolves to nothing — it now returns a clear error naming the unrecognized entries
+- Fixed `/usage` showing stale cached bars over fresher data, and `/mcp` not reclassifying placeholder servers after config edits
+- Fixed "Change directory" in SDK hosts (e.g. Claude Desktop) failing with "A turn is in progress" on idle sessions that have a running background task
+- Fixed the workflow save dialog showing `~/.claude/workflows/` instead of the `CLAUDE_CONFIG_DIR` location for user-scope saves
+- Fixed `/release-notes` adding the viewed notes to the model's context — "Show all" previously injected the entire changelog into every subsequent request
+- Fixed a memory leak in the agent view where pasted images were retained for the screen's lifetime after sending peek replies
+- Fixed SDK sessions losing agents defined via the initialize request when a plugin refresh ran before the client attached
+- Fixed several memory leaks in long sessions: MCP stdio server stderr accumulating up to 64 MB per server, LSP documents staying open indefinitely (now LRU with 50-doc cap), async hook output retained after backgrounding, and unbounded growth in headless/SDK sessions from large tool-result payloads
+- Fixed a memory blowup when reading files with extremely long single lines using offset/limit — the read now returns a clean error instead of loading the whole line
+- Fixed multi-second per-turn slowdowns in sessions with many permission deny/ask rules — rule matchers are now compiled once and cached
+- Improved input responsiveness while agent task lists update — task updates no longer re-render the entire UI
+- Reduced per-tool-call CPU overhead in print/SDK sessions with many MCP tools by caching tool-pool assembly (up to 7x faster tool rounds at high tool counts)
+- Reduced memory usage by bounding the file edit read cache to 16 MB instead of pinning up to 1,000 full files
+- Reduced session transcript size (up to 79x in edit-heavy sessions) and bounded checkpoint disk usage by pruning superseded file-history backups
+- Reduced memory usage when resuming sessions with background agents or forks spawned from large conversations
+- Completed background agents now stay listed in `/tasks` until cleanup instead of vanishing the moment they finish
+- Attaching to a stopped background agent now shows its transcript immediately while the session warms up, instead of a blank "Session is starting" screen
+- Background sessions: an older daemon no longer silently restarts workers spawned by a newer version onto the older binary
+- Agent view: Ctrl+X now deletes renamed-branch worktrees, never destroys unpushed commits, keeps the session row when a worktree is kept, and reused worktree names reset to the current base
+- Catastrophic removals (e.g. `rm -rf ~`) in commands containing `$(…)`/backticks/`<(…)` now prompt in `--dangerously-skip-permissions` and auto mode, matching the plain form
+- `/install-github-app` and the `/mcp` settings menu no longer open in background sessions
+- MCP servers configured with an empty URL now show as "not configured" in `/mcp` instead of a config error
+- `/usage` now shows your last-known usage bars with an "as of" note when the usage endpoint is rate-limited, instead of an error screen
+- Fixed Bedrock auth failing with "Session token not found or invalid" for AWS SSO profiles whose sso_region differs from the Bedrock region (2.1.207 regression)
+
+- Added deprecation notification for npm installations - run `claude install` or see https://code.claude.com/docs/en/setup for more options
